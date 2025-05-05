@@ -31,9 +31,13 @@ module.exports = (sequelize, Sequelize) => {
                 type: Sequelize.TEXT,
                 allowNull: false
             },
-            status: {
-                type: Sequelize.STRING(20),
-                allowNull: false
+            status_id: {
+                type: Sequelize.INTEGER(50),
+                allowNull: false,
+                references: {
+                    model: 'status',
+                    key: 'id'
+                }
             }
         });
 
@@ -48,6 +52,11 @@ module.exports = (sequelize, Sequelize) => {
         Room.belongsTo(models.type, {
             foreignKey: 'type_id'
         });
+
+        Room.belongsTo(models.status, {
+            foreignKey: 'status_id',
+            as: 'status'
+          });
     };
     return Room;
 };

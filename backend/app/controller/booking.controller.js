@@ -3,7 +3,14 @@ var globalFunctions = require('../config/global.functions.js');
 var Booking = db.booking;
 
 exports.findAll = (req, res) => {
-    Booking.findAll()
+    Booking.findAll({
+        include: [
+            {
+                model: Status,
+                as: 'status' 
+            }
+        ]
+        })
         .then(objects => {
             globalFunctions.sendResult(res, objects);
         })

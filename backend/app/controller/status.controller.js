@@ -1,23 +1,9 @@
 var db = require('../config/db.config.js');
 var globalFunctions = require('../config/global.functions.js');
-var Room = db.room;
-var Type = db.type;
 var Status = db.status;
 
 exports.findAll = (req, res) => {
-    Room.findAll({
-        include: [
-            {
-                model: Type,
-                required: true
-            },
-            {
-                model: Status,
-                requried: true,
-                as: 'status'
-            }
-        ]
-        })
+    Status.findAll()
         .then(objects => {
             globalFunctions.sendResult(res, objects);
         })
@@ -27,7 +13,7 @@ exports.findAll = (req, res) => {
 };
 
 exports.create = (req, res) => {
-    Room.create({
+    Status.create({
         name: req.body.name
     }).then(object => {
         globalFunctions.sendResult(res, object);
@@ -37,7 +23,7 @@ exports.create = (req, res) => {
 };
 
 exports.update = (req, res) => {
-    Room.update({
+    Status.update({
             name: req.body.name
         },
         {
@@ -53,7 +39,7 @@ exports.update = (req, res) => {
 };
 
 exports.delete = (req, res) => {
-    Room.destroy({
+    Status.destroy({
         where: {
             id: req.params.id
         }
@@ -65,11 +51,23 @@ exports.delete = (req, res) => {
 };
 
 exports.findById = (req, res) => {
-    Room.findByPk(req.params.id)
+    Status.findByPk(req.params.id)
         .then(object => {
             globalFunctions.sendResult(res, object);
         })
         .catch(err => {
             globalFunctions.sendError(res, err);
         })
+};
+
+exports.findByName = (req, res) => {
+    Status.findAll({
+        where: {
+            name: req.params.name
+        }
+    }).then(objects => {
+        globalFunctions.sendResult(res, objects);
+    }).catch(err => {
+        globalFunctions.sendError(res, err);
+    })
 };

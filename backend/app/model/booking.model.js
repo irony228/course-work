@@ -27,9 +27,13 @@ module.exports = (sequelize, Sequelize) => {
                 type: Sequelize.FLOAT(10,2),
                 allowNull: false
             },
-            status: {
-                type: Sequelize.STRING(20),
-                allowNull: false
+            status_id: {
+                type: Sequelize.INTEGER(50),
+                allowNull: false,
+                references: {
+                    model: 'status',
+                    key: 'id'
+                }
             },
             created: {
                 type: Sequelize.DATE,
@@ -52,6 +56,11 @@ module.exports = (sequelize, Sequelize) => {
 
         Booking.belongsTo(models.room, {
             foreignKey: 'room_id'
+        });
+
+        Booking.belongsTo(models.status, {
+            foreignKey: 'status_id',
+            as: 'status'
         });
     };
     return Booking;

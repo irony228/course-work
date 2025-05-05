@@ -15,3 +15,6 @@ type(app);
 
 var room = require('./app/route/room.route.js');
 room(app);
+
+var status = require('./app/route/status.route.js');
+status(app);
