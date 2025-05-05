@@ -18,3 +18,6 @@ room(app);
 
 var status = require('./app/route/status.route.js');
 status(app);
+
+var user = require('./app/route/user.route.js');
+user(app);

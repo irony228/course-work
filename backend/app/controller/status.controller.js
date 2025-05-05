@@ -14,6 +14,7 @@ exports.findAll = (req, res) => {
 
 exports.create = (req, res) => {
     Status.create({
+        entity_type: req.body.entity_type,
         name: req.body.name
     }).then(object => {
         globalFunctions.sendResult(res, object);
@@ -24,6 +25,7 @@ exports.create = (req, res) => {
 
 exports.update = (req, res) => {
     Status.update({
+            entity_type: req.body.entity_type,
             name: req.body.name
         },
         {
@@ -60,10 +62,10 @@ exports.findById = (req, res) => {
         })
 };
 
-exports.findByName = (req, res) => {
+exports.findByType = (req, res) => {
     Status.findAll({
         where: {
-            name: req.params.name
+            entity_type: req.params.entity_type
         }
     }).then(objects => {
         globalFunctions.sendResult(res, objects);

@@ -11,4 +11,6 @@ module.exports = (app) => {
     app.post('/api/deleteStatus/:id', status.delete);
 
     app.get('/api/status/:id', status.findById);
+
+    app.get('/api/status/name/:entity_type', status.findByType);
 };
