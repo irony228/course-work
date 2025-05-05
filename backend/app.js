@@ -9,3 +9,9 @@ var db = require('./app/config/db.config.js'); // подключение нас�
 db.sequelize.sync({force: false});
 
 app.listen(3000);
+
+var type = require('./app/route/type.route.js');
+type(app);
+
+var room = require('./app/route/room.route.js');
+room(app);

@@ -11,3 +11,63 @@ exports.findAll = (req, res) => {
             globalFunctions.sendError(res, err);
         })
 };
+
+exports.create = (req, res) => {
+    Type.create({
+        name: req.body.name
+    }).then(object => {
+        globalFunctions.sendResult(res, object);
+    }).catch(err => {
+        globalFunctions.sendError(res, err);
+    })
+};
+
+exports.update = (req, res) => {
+    Type.update({
+            name: req.body.name
+        },
+        {
+            where: {
+                id: req.params.id
+            }
+        }
+    ).then(object => {
+        globalFunctions.sendResult(res, object);
+    }).catch(err => {
+        globalFunctions.sendError(res, err);
+    })
+};
+
+exports.delete = (req, res) => {
+    Type.destroy({
+        where: {
+            id: req.params.id
+        }
+    }).then(() => {
+        globalFunctions.sendResult(res, 'Запись удалена');
+    }).catch(err => {
+        globalFunctions.sendError(res, err);
+    });
+};
+
+exports.findById = (req, res) => {
+    Type.findByPk(req.params.id)
+        .then(object => {
+            globalFunctions.sendResult(res, object);
+        })
+        .catch(err => {
+            globalFunctions.sendError(res, err);
+        })
+};
+
+exports.findByName = (req, res) => {
+    Type.findAll({
+        where: {
+            name: req.params.name
+        }
+    }).then(objects => {
+        globalFunctions.sendResult(res, objects);
+    }).catch(err => {
+        globalFunctions.sendError(res, err);
+    })
+};
