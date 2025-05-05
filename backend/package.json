@@ -1,0 +1,28 @@
+{
+  "name": "course-work",
+  "version": "1.0.0",
+  "description": "course work on the discipline \"Development of web applications (PI) 2024\" on the topic \"Hotel room reservation system\"",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "start": "nodemon app.js"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/irony228/course-work.git"
+  },
+  "author": "Senkin Vladimir Yurievich",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/irony228/course-work/issues"
+  },
+  "homepage": "https://github.com/irony228/course-work#readme",
+  "dependencies": {
+    "cors": "^2.8.5",
+    "express": "^5.1.0",
+    "mysql2": "^3.14.1",
+    "nodemon": "^3.1.10",
+    "pug": "^3.0.3",
+    "sequelize": "^6.37.7"
+  }
+}
