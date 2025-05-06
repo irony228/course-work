@@ -51,12 +51,10 @@
       const statuses = ref([]);
 
       const getRoom = () => {
-        console.log(props);
         http
           .get("/room/" + props.id) // обращаемся к серверу для получения категории, id взят из входных параметров (props)
           .then(response => { // запрос выполнен успешно
             room.value = response.data;
-            console.log(response);
           })
           .catch(e => { // запрос выполнен с ошибкой
             console.log(e);

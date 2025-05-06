@@ -1,14 +1,16 @@
 <template>
   <div v-if="room">
     <h4>Комната №{{ room.room_number }}</h4>
-    <p><img :src="room.photo_url" alt="Фото комнаты" width="600"></p>
-    <p><strong>Класс:</strong> {{ room.type.name }}</p>
-    <p><strong>Вместимость:</strong> {{ room.capacity.name }}</p>
-    <p><strong>Цена:</strong> {{ room.price }}</p>
-    <p><strong>Описание:</strong> {{ room.description }}</p>
-    <p><strong>Статус:</strong> {{ room.status.name }}</p>
-
-    <router-link :to="'/editRoom/' + room.id">Редактировать</router-link>
+    <p><img :src="room.photo_url" alt="Фото комнаты" width="600" class="photo"></p>
+    <div class="description">
+      <p><strong>Класс:</strong> {{ room.type.name }}</p>
+      <p><strong>Вместимость:</strong> {{ room.capacity.name }}</p>
+      <p><strong>Цена:</strong> {{ room.price }} &#8381;</p>
+      <p><strong>Описание:</strong> {{ room.description }}</p>
+      <p><strong>Статус:</strong> {{ room.status.name }}</p>
+    </div>
+    <!--<router-link :to="'/editRoom/' + room.id">Редактировать</router-link>-->
+    <button @click="$router.push('/editRoom/'+room.id)">Редактировать</button>
   </div>
 </template>
 

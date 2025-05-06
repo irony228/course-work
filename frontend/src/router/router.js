@@ -17,7 +17,7 @@ const routes = [
         component: () => import('../views/room/Room.vue'),
         props: true, // указываем, что компонент Category.vue может принимать параметры в адресной строке, например, в path указан id
         meta: {
-            title: "Данные комнат"
+            title: "Комната"
         }
     },
     {
@@ -34,7 +34,7 @@ const routes = [
         component: () => import('../views/room/EditRoom.vue'),
         props: true,
         meta: {
-            title: "Добавление комнаты"
+            title: "Редактирование комнаты"
         }
     },
 ];

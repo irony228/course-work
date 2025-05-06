@@ -23,7 +23,7 @@
       <p>Комнат с таким номером не найдено</p>
     </div>
     <ul>
-      <li v-for="(room, index) in rooms" :key="index">
+      <li v-for="(room, index) in rooms" :key="index" style="text-align: left">
         <router-link
           :to="{
             name: 'room-details',
