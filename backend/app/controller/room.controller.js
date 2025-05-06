@@ -90,3 +90,30 @@ exports.findById = (req, res) => {
             globalFunctions.sendError(res, err);
         })
 };
+
+exports.findByNumber = (req, res) => {
+    Room.findAll({
+        where: {
+            room_number: req.params.room_number
+        },
+        include: [
+            {
+                model: Type,
+                required: true
+            },
+            {
+                model: Status,
+                required: true,
+                as: 'status'
+            },
+            {
+                model: Capacity,
+                required: true
+            }
+        ]
+    }).then(objects => {
+        globalFunctions.sendResult(res, objects);
+    }).catch(err => {
+        globalFunctions.sendError(res, err);
+    })
+};
