@@ -16,7 +16,7 @@
             <input type="text" name="price" id="price" placeholder="Цена комнаты" required v-model="room.price">
             <input type="text" name="description" id="description" placeholder="Описание комнаты" required v-model="room.description">
             <select name="status_id" v-model="room.status_id" required>
-                <option v-for="status in statuses" :key="status.id" :value="status.id">{{status.name}}</option>
+                <option v-for="status in statuses.filter(s => s.entity_type === 'room')" :key="status.id" :value="status.id">{{status.name}}</option>
             </select>
             <!input type="text" name="status_id" id="status_id" placeholder="Статус комнаты" required v-model="room.status_id">
             <input type="submit" value="Обновить">

@@ -28,14 +28,6 @@ const routes = [
             title: "Добавление комнаты"
         }
     },
-    {
-        path: "/searchRooms",
-        name: "search-rooms",
-        component: () => import('../views/room/SearchRooms.vue'),
-        meta: {
-            title: "Поиск комнат"
-        }
-    },
 ];
 
 const router = createRouter({
