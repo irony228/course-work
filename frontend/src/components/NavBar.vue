@@ -2,6 +2,7 @@
     <div id="app">
       <nav>
         <router-link class="item" to="/listRooms">Комнаты</router-link>
+        <router-link class="item" to="/register">Регистрация</router-link>
       </nav>
     </div>
   </template>

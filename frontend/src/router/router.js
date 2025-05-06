@@ -37,6 +37,14 @@ const routes = [
             title: "Редактирование комнаты"
         }
     },
+    {
+        path: "/register",
+        name: "register",
+        component: () => import('../views/user/Register.vue'),
+        meta: {
+            title: "Регистрация"
+        }
+    },
 ];
 
 const router = createRouter({

@@ -18,7 +18,8 @@ module.exports = (sequelize, Sequelize) => {
             role: {
                 type: Sequelize.ENUM,
                 values: ['Администратор', 'Гость'],
-                allowNull: false
+                allowNull: false,
+                defaultValue: 'Гость'
             },
             firstname: {
                 type: Sequelize.STRING(20),

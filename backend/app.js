@@ -32,3 +32,6 @@ user(app);
 
 var capacity = require('./app/route/capacity.route.js');
 capacity(app);
+
+var auth = require('./app/route/auth.route.js');
+auth(app);
