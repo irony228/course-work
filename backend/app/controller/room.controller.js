@@ -82,7 +82,25 @@ exports.delete = (req, res) => {
 };
 
 exports.findById = (req, res) => {
-    Room.findByPk(req.params.id)
+    Room.findByPk(req.params.id,{
+        include: [
+            {
+                model: Type,
+                required: true
+            },
+            {
+                model: Status,
+                requried: true,
+                as: 'status'
+            },
+            {
+                model: Capacity,
+                required: true
+            }
+        ]
+    }
+        
+    )
         .then(object => {
             globalFunctions.sendResult(res, object);
         })

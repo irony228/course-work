@@ -28,6 +28,15 @@ const routes = [
             title: "Добавление комнаты"
         }
     },
+    {
+        path: "/editRoom/:id",
+        name: "edit-user",
+        component: () => import('../views/room/EditRoom.vue'),
+        props: true,
+        meta: {
+            title: "Добавление комнаты"
+        }
+    },
 ];
 
 const router = createRouter({

@@ -32,10 +32,8 @@
         >
           {{ room.room_number }},
           {{ room.type.name }},
-          {{ room.photo_url }},
           {{ room.capacity.name }},
           {{ room.price }},
-          {{ room.description }},
           {{ room.status.name }}
         </router-link>
       </li>
