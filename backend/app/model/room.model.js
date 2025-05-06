@@ -19,7 +19,7 @@ module.exports = (sequelize, Sequelize) => {
                 type: Sequelize.TEXT,
                 allowNull: false
             },
-            capacity: {
+            capacity_id: {
                 type: Sequelize.INTEGER(10),
                 allowNull: false
             },
@@ -57,6 +57,10 @@ module.exports = (sequelize, Sequelize) => {
             foreignKey: 'status_id',
             as: 'status'
           });
+
+        Room.belongsTo(models.capacity, {
+        foreignKey: 'capacity_id'
+        });
     };
     return Room;
 };

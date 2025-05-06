@@ -10,6 +10,14 @@ db.sequelize.sync({force: false});
 
 app.listen(3000);
 
+var cors = require('cors');
+var corsOptions = {
+    origin: ['http://localhost:5173', 'http://127.0.0.1:5173'], // указываем, откуда будут приходить запросы
+    credentials: true, // разрешаем обрабатывать запросы
+    optionSuccessStatus: 200 // при успешной обработке запроса будет возвращён статус 200
+};
+app.use(cors(corsOptions));
+
 var type = require('./app/route/type.route.js');
 type(app);
 
