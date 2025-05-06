@@ -29,3 +29,6 @@ status(app);
 
 var user = require('./app/route/user.route.js');
 user(app);
+
+var capacity = require('./app/route/capacity.route.js');
+capacity(app);
