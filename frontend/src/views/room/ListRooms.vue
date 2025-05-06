@@ -19,6 +19,9 @@
     </form>
 
     <!-- Вывод списка комнат -->
+    <div v-if="rooms.length === 0">
+      <p>Комнат с таким номером не найдено</p>
+    </div>
     <ul>
       <li v-for="(room, index) in rooms" :key="index">
         <router-link
@@ -51,10 +54,10 @@ export default defineComponent({
     const room_number = ref("");
 
     const getRooms = () => {
+      room_number.value = "";
       http
         .get("/listRooms")
         .then((response) => {
-          console.log(response.data);
           rooms.value = response.data;
         })
         .catch((e) => {

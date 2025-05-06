@@ -72,18 +72,18 @@
           description: room.value.description, 
           status_id: room.value.status_id
         };
-        // Либо const data = room.value;
         http
           .post("/addRoom", data)
           .then(response => { // запрос выполнился успешно
             room.value.id = response.data.id;
+            submitted.value = true;
           })
           .catch(e => { // при выполнении запроса возникли ошибки
             console.log(e);
-            console.log("Отправленные данные:", data);
+            alert("Комната с заданным номером уже существует");
           });
   
-        submitted.value = true;
+        //submitted.value = true;
       };
       const getSelectData = async () => {
         try{
