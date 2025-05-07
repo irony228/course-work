@@ -4,11 +4,11 @@ module.exports = (app) => {
 
     const booking = require('../controller/booking.controller');
     
-    //app.get('/api/capacities',  [authJwt.verifyToken], capacity.findAll);
+    app.get('/api/bookings/:user_id',  [authJwt.verifyToken], booking.findUserBookings);
 
     app.post('/api/addBooking',  [authJwt.verifyToken], booking.create);
 
-    //app.post('/api/updateCapacity/:id',  [authJwt.verifyToken], capacity.update);
+    app.post('/api/updateBooking/:id',  [authJwt.verifyToken], booking.update);
 
     //app.post('/api/deleteCapacity/:id',  [authJwt.verifyToken], capacity.delete);
 

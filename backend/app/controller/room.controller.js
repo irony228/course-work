@@ -48,26 +48,26 @@ exports.create = (req, res) => {
 };
 
 exports.update = (req, res) => {
-    Room.update({
-        room_number: req.body.room_number,
-        type_id: req.body.type_id,
-        photo_url: req.body.photo_url,
-        capacity_id: req.body.capacity_id,
-        price: req.body.price,
-        description: req.body.description, 
-        status_id: req.body.status_id
-        },
-        {
-            where: {
-                id: req.params.id
-            }
-        }
-    ).then(object => {
-        globalFunctions.sendResult(res, object);
-    }).catch(err => {
-        globalFunctions.sendError(res, err);
+    const updateData = {};
+  
+    if (req.body.room_number !== undefined) updateData.room_number = req.body.room_number;
+    if (req.body.type_id !== undefined) updateData.type_id = req.body.type_id;
+    if (req.body.photo_url !== undefined) updateData.photo_url = req.body.photo_url;
+    if (req.body.capacity_id !== undefined) updateData.capacity_id = req.body.capacity_id;
+    if (req.body.price !== undefined) updateData.price = req.body.price;
+    if (req.body.description !== undefined) updateData.description = req.body.description;
+    if (req.body.status_id !== undefined) updateData.status_id = req.body.status_id;
+  
+    Room.update(updateData, {
+        where: { id: req.params.id }
     })
-};
+    .then(object => {
+        globalFunctions.sendResult(res, object);
+    })
+    .catch(err => {
+        globalFunctions.sendError(res, err);
+    });
+  };
 
 exports.delete = (req, res) => {
     Room.destroy({
