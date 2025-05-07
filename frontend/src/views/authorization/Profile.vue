@@ -17,12 +17,12 @@
 
   <h4>Мои бронирования</h4>
   <div v-for="booking in bookings" :key="booking.id" class="booking-item">
-    <p>Бронирование № {{ booking.id }} — {{ booking.status.name }}</p>
+    <p>Бронирование № {{ booking.id }} — {{ booking.status.name }} </p>
     <p>Дата бронирования {{ formatDateTime(booking.created) }}</p>
     <p>Заезд: {{ formatDate(booking.check_in_date) }}, Выезд: {{ formatDate(booking.check_out_date) }}</p>
     <p>Комната № {{ booking.room.room_number }}</p>
     <p> {{booking.room.capacity.name}} номер класса {{booking.room.type.name}}</p>
-    <p>Стоимость: {{ booking.price }}₽</p>
+    <p>Итоговая стоимость: {{ booking.price }}₽</p>
 
     <button v-if="booking.status_id === 1" @click="goToPayment(booking.id)">Оплатить</button>
     <button v-if="booking.status_id === 1" @click="cancelBooking(booking)">Отменить</button>
@@ -112,8 +112,20 @@ export default {
       return `${year}-${month}-${day} ${hours}:${minutes}:${seconds}`;
     };
 
-    const goToPayment = (bookingId) => {
-      router.push(`/payment/${bookingId}`);
+    const goToPayment = (booking) => {
+      http.post(`/updatePayment/${booking.id}`, {
+        status_id: 4
+      }, {
+        headers: {
+          "x-access-token": store.state.auth.token
+        }
+      })
+      .then(() => {
+        fetchBookings();
+      })
+      .catch(e => {
+        console.error("Ошибка при оплате бронирования или обновлении статуса оплаты:", e);
+      });
     };
 
     onMounted(() => {
@@ -126,6 +138,7 @@ export default {
     return {
       currentUser,
       bookings,
+      goToPayment,
       cancelBooking,
       formatDate,
       formatDateTime,

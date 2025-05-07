@@ -38,3 +38,6 @@ auth(app);
 
 var booking = require('./app/route/booking.route.js');
 booking(app);
+
+var payment = require('./app/route/payment.route.js');
+payment(app);

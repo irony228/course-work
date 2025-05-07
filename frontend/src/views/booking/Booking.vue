@@ -76,6 +76,18 @@ export default defineComponent({
       http.post("/addBooking", data)
         .then(response => {
           const booking_id = response.data.id;
+          
+          const payment_data = {
+            booking_id: booking_id,
+            amount: totalPrice.value
+          }
+          http.post("/addPayment", payment_data)
+            .then(response => {
+              const payment_id = response.data.id;
+            })
+            .catch(e =>{
+              console.error(e);
+            });
 
           // После успешного бронирования меняем статус комнаты на '7'
           http.post(`/updateRoom/${props.room_id}`, {
