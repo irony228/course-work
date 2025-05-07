@@ -35,3 +35,6 @@ capacity(app);
 
 var auth = require('./app/route/auth.route.js');
 auth(app);
+
+var booking = require('./app/route/booking.route.js');
+booking(app);

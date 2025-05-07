@@ -73,6 +73,12 @@ const routes = [
             title: "Ошибка"
         }
     },
+    {
+        path: "/booking/:room_id",
+        name: "Booking",
+        component: () => import('../views/booking/Booking.vue'),
+        props: true
+      }
 ];
 
 const router = createRouter({

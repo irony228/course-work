@@ -11,6 +11,9 @@
     </div>
     <!--<router-link :to="'/editRoom/' + room.id">Редактировать</router-link>-->
     <button @click="$router.push('/editRoom/'+room.id)" class="btn btn-outline-primary">Редактировать</button>
+    <router-link :to="`/booking/${room.id}`">
+      <button>Забронировать</button>
+    </router-link>
   </div>
 </template>
 
