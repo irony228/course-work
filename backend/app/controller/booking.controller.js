@@ -68,6 +68,23 @@ exports.findUserBookings = (req,res) => {
                 model: Status,
                 required: true,
                 as: 'status' 
+            },
+            {
+                model: db.room,
+                required: true,
+                as: 'room',
+                include: [
+                  {
+                    model: db.capacity,
+                    required: true,
+                    as: 'capacity'
+                  },
+                  {
+                    model: db.type,
+                    required: true,
+                    as: 'type'
+                  }
+                ]
             }
         ]
         })

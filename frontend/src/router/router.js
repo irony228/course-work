@@ -101,7 +101,7 @@ router.beforeEach(async (to, from, next) => {
 
     // получаем пользователя из локального хранилища
     const user = JSON.parse(localStorage.getItem("user")); 
-    console.log(user)
+    //console.log(user)
 
     if (user) {
         try {

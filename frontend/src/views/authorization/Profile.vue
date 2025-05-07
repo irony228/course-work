@@ -20,7 +20,8 @@
     <p>Бронирование № {{ booking.id }} — {{ booking.status.name }}</p>
     <p>Дата бронирования {{ formatDateTime(booking.created) }}</p>
     <p>Заезд: {{ formatDate(booking.check_in_date) }}, Выезд: {{ formatDate(booking.check_out_date) }}</p>
-    <p>Комната № {{ booking.room_id }}</p>
+    <p>Комната № {{ booking.room.room_number }}</p>
+    <p> {{booking.room.capacity.name}} номер класса {{booking.room.type.name}}</p>
     <p>Стоимость: {{ booking.price }}₽</p>
 
     <button v-if="booking.status_id === 1" @click="goToPayment(booking.id)">Оплатить</button>

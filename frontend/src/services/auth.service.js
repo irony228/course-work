@@ -50,7 +50,7 @@ function refreshToken(user) {
         .post("/refreshToken", data)
         .then(response => {
             if (response.data.accessToken) {
-                console.log(response.data.accessToken)
+                //console.log(response.data.accessToken)
                 localStorage.setItem('user', JSON.stringify(response.data));// записываем данные пользователя в локальное хранилище, которое хранится в браузере
             }
             const user = JSON.parse(localStorage.getItem("user")); 
