@@ -8,6 +8,6 @@ module.exports = (app) => {
 
     app.post("/api/updatePayment/:booking_id", [authJwt.verifyToken], payment.update);
 
-    app.get("/api/payment/:booking_id",  payment.findByBookingId);
+    app.get("/api/payment/:booking_id", [authJwt.verifyToken],  payment.findByBookingId);
   };
   

@@ -88,7 +88,7 @@ exports.findUserBookings = (req,res) => {
             },
         ],
         order:[
-            'id','user_id'
+            'created'
         ]
         })
         .then(objects => {

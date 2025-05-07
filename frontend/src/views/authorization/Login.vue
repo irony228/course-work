@@ -40,7 +40,7 @@ export default {
 
             try {
                 await store.dispatch('auth/login', user.value); // вызываем метод login(...) из auth.service.js 
-                window.location.href = '/'; // перенаправляем на главную страницу после успешного входа
+                window.location.href = '/listRooms'; // перенаправляем на главную страницу после успешного входа
             } catch (error) {
                 loading.value = false; // устанавливаем состояние загрузки в false при ошибке
                 message.value = error.response.data.message; // устанавливаем сообщение об ошибке из ответа сервера

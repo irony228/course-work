@@ -24,7 +24,7 @@
     <p> {{booking.room.capacity.name}} номер класса {{booking.room.type.name}}</p>
     <p>Итоговая стоимость: {{ booking.price }}₽</p>
 
-    <button v-if="booking.status_id === 1" @click="goToPayment(booking.id)">Оплатить</button>
+    <button v-if="booking.status_id === 1" @click="goToPayment(booking)">Оплатить</button>
     <button v-if="booking.status_id === 1" @click="cancelBooking(booking)">Отменить</button>
   </div>
 </template>
@@ -59,7 +59,6 @@ export default {
     };
 
     const cancelBooking = (booking) => {
-      // 1. Отменяем бронирование
       http.post(`/updateBooking/${booking.id}`, {
         status_id: 3
       }, {
@@ -68,7 +67,6 @@ export default {
         }
       })
       .then(() => {
-        // 2. Освобождаем комнату
         return http.post(`/updateRoom/${booking.room_id}`, {
           status_id: 6
         }, {
@@ -78,7 +76,6 @@ export default {
         });
       })
       .then(() => {
-        // 3. После успешного обновления — заново получить список бронирований
         fetchBookings();
       })
       .catch(e => {
@@ -121,6 +118,15 @@ export default {
         }
       })
       .then(() => {
+        return http.post(`/updateBooking/${booking.id}`, {
+          status_id: 2
+        }, {
+          headers: {
+            "x-access-token": store.state.auth.token
+          }
+        });
+      })
+      .then(() => {
         fetchBookings();
       })
       .catch(e => {
@@ -142,7 +148,6 @@ export default {
       cancelBooking,
       formatDate,
       formatDateTime,
-      goToPayment
     };
   }
 };
