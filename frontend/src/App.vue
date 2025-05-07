@@ -26,5 +26,6 @@ export default defineComponent({
   #app {
     font-family: Avenir, Helvetica, Arial, sans-serif;
     margin-top: 20px;
+    
   }
 </style>

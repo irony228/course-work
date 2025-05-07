@@ -1,7 +1,7 @@
 <template>
   <div v-if="room">
     <h4>Комната №{{ room.room_number }}</h4>
-    <p><img :src="room.photo_url" alt="Фото комнаты" width="600" class="photo"></p>
+    <p><img :src="room.photo_url" alt="Фото комнаты" width="600" class="rounded mx-auto d-block"></p>
     <div class="description">
       <p><strong>Класс:</strong> {{ room.type.name }}</p>
       <p><strong>Вместимость:</strong> {{ room.capacity.name }}</p>
@@ -10,7 +10,7 @@
       <p><strong>Статус:</strong> {{ room.status.name }}</p>
     </div>
     <!--<router-link :to="'/editRoom/' + room.id">Редактировать</router-link>-->
-    <button @click="$router.push('/editRoom/'+room.id)">Редактировать</button>
+    <button @click="$router.push('/editRoom/'+room.id)" class="btn btn-outline-primary">Редактировать</button>
   </div>
 </template>
 

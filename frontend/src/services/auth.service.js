@@ -31,7 +31,9 @@ function register(user) {
         role: user.role,
         firstname: user.firstname,
         lastname: user.lastname,
-        middlename: user.middlename
+        middlename: user.middlename,
+        phone_number: user.phone_number,
+        email: user.email
     };
     console.log(data)
     return http.post("/register", data);

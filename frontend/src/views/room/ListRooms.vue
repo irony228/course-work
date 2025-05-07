@@ -2,54 +2,62 @@
   <div>
     <h4>Список комнат</h4>
 
-    <!-- Ссылки -->
-    <router-link class="item" to="/addRoom">Добавить комнату</router-link>
-
-    <!-- Поиск -->
-    <form @submit="searchRoomsByNumber">
-      <input
-        type="text"
-        name="room_number"
-        id="room_number"
-        placeholder="Номер комнаты"
-        v-model="room_number"
-      />
-      <input type="submit" value="Поиск" />
-      <input type="button" @click="getRooms" value="Сбросить"/>
-    </form>
-
-    <!-- Вывод списка комнат -->
-    <div v-if="rooms.length === 0">
-      <p>Комнат с таким номером не найдено</p>
+    <div v-if="!displayContent">
+      Список комнат доступен только авторизованным пользователям
     </div>
-    <ul>
-      <li v-for="(room, index) in rooms" :key="index" style="text-align: left">
-        <router-link
-          :to="{
-            name: 'room-details',
-            params: { id: room.id },
-          }"
-        >
-          {{ room.room_number }},
-          {{ room.type.name }},
-          {{ room.capacity.name }},
-          {{ room.price }},
-          {{ room.status.name }}
-        </router-link>
-      </li>
-    </ul>
+    <div v-else>
+      <!-- Ссылки -->
+      <router-link class="item" to="/addRoom">Добавить комнату</router-link>
+
+      <!-- Поиск -->
+      <form @submit="searchRoomsByNumber">
+        <input
+          type="text"
+          name="room_number"
+          id="room_number"
+          placeholder="Номер комнаты"
+          v-model="room_number"
+        />
+        <input type="submit" value="Поиск" />
+        <input type="button" @click="getRooms" value="Сбросить"/>
+      </form>
+
+      <!-- Вывод списка комнат -->
+      <div v-if="rooms.length === 0">
+        <p>Комнат с таким номером не найдено</p>
+      </div>
+      <ul>
+        <li v-for="(room, index) in rooms" :key="index" style="text-align: left">
+          <router-link
+            :to="{
+              name: 'room-details',
+              params: { id: room.id },
+            }"
+          >
+            {{ room.room_number }},
+            {{ room.type.name }},
+            {{ room.capacity.name }},
+            {{ room.price }},
+            {{ room.status.name }}
+          </router-link>
+        </li>
+      </ul>
+    </div>
   </div>
+  
 </template>
 
 <script>
 import { defineComponent, ref, onMounted } from "vue";
 import http from "../../http-common";
+import UserService from '../../services/user.service';
 
 export default defineComponent({
   name: "ListRooms",
   setup() {
     const rooms = ref([]);
     const room_number = ref("");
+    const displayContent = ref(false);
 
     const getRooms = () => {
       room_number.value = "";
@@ -82,7 +90,15 @@ export default defineComponent({
     };
 
     onMounted(() => {
-      getRooms();
+      UserService.getUserBoard()
+        .then(() => {
+          displayContent.value = true; // если пользователь авторизован, показываем контент
+          getRooms();
+        })
+        .catch(e => {
+          console.error((e.response && e.response.data) || e.message || e.toString());
+        });
+      //getRooms();
     });
 
     return {
@@ -90,6 +106,7 @@ export default defineComponent({
       room_number,
       getRooms,
       searchRoomsByNumber,
+      displayContent
     };
   },
 });

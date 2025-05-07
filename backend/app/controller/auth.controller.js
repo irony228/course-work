@@ -13,7 +13,9 @@ exports.register = (req, res) => {
         role: req.body.role,
         firstname: req.body.firstname,
         lastname: req.body.lastname,
-        middlename: req.body.middlename
+        middlename: req.body.middlename,
+        phone_number: req.body.phone_number,
+        email: req.body.email
     })
         .then(() => {
             var result = {
@@ -63,6 +65,8 @@ exports.login = (req, res) => {
                 firstname: user.firstname,
                 lastname: user.lastname,
                 middlename: user.middlename,
+                phone_number: user.phone_number,
+                email: user.email,
                 accessToken: token
             };
             globalFunctions.sendResult(res, object);
@@ -96,6 +100,8 @@ exports.refreshToken = (req, res) => {
                 firstname: user.firstname,
                 lastname: user.lastname,
                 middlename: user.middlename,
+                phone_number: user.phone_number,
+                email: user.email,
                 accessToken: token
             };
             globalFunctions.sendResult(res, object);
