@@ -10,7 +10,7 @@
         <router-link class="item" to="/addRoom">Добавить комнату</router-link>
 
         <!-- Поиск по номеру -->
-        <form>
+        <form @submit.prevent="searchRoomsByNumber">
           <input
             type="text"
             placeholder="Номер комнаты"
@@ -18,8 +18,8 @@
             class="input-text"
             style="display: inline"
           />
-          <button @click="searchRoomsByNumber" style="margin:10px">Поиск</button>
-          <button @click="getRooms">Сбросить</button>
+          <button type="submit" style="margin:10px">Поиск</button>
+          <button type="button" @click="getRooms">Сбросить</button>
         </form>
       </div>
 
@@ -44,34 +44,39 @@
         </label>
 
         <label>Цена от:
-          <input type="number" v-model="priceFrom" min="0" class="input-text"/>
+          <input type="number" v-model="priceFrom" min="0" class="input-text" />
         </label>
 
         <label>до:
-          <input type="number" v-model="priceTo" min="0" class="input-text"/>
+          <input type="number" v-model="priceTo" min="0" class="input-text" />
         </label>
 
         <button @click="filterRooms">Применить фильтр</button>
-        <button @click="resetFilters">Сбросить фильтры</button>
+        <button @click="resetFilters"style="margin:10px">Сбросить фильтры</button>
       </div>
 
-      <!-- Список -->
+      <!-- Список комнат -->
       <div v-if="rooms.length === 0">
         <p>Комнат не найдено</p>
       </div>
-      <ul>
-        <li v-for="(room, index) in rooms" :key="index">
-          <router-link
-            :to="{ name: 'room-details', params: { id: room.id } }"
-          >
-            {{ room.room_number }},
-            {{ room.type.name }},
-            {{ room.capacity.name }},
-            {{ room.price }}₽,
-            {{ room.status.name }}
+
+      <div class="room-grid">
+        <div v-for="(room, index) in rooms" :key="index" class="room-card">
+          <router-link :to="{ name: 'room-details', params: { id: room.id } }">
+            <img
+              :src="room.photo_url || '/default-room.jpg'"
+              alt="Фото комнаты"
+              class="room-photo"
+            />
+            <div class="room-info">
+              <h3>{{ room.type.name }}</h3>
+              <p>Вместимость: {{ room.capacity.name }}</p>
+              <p>Цена: {{ room.price }}₽</p>
+              <p>Статус: {{ room.status.name }}</p>
+            </div>
           </router-link>
-        </li>
-      </ul>
+        </div>
+      </div>
     </div>
   </div>
 </template>
@@ -215,6 +220,8 @@ export default defineComponent({
   margin-top: 20px;
 }
 .filters label {
-  margin-right: 15px;
+  margin-right: 10px;
 }
+
+
 </style>
