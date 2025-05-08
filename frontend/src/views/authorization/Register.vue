@@ -14,7 +14,6 @@
           <div class="form-group mb-3">
             <select class="form-control" v-model="user.role" required>
               <option value="" disabled selected>Выберите роль</option>
-              <option value="Администратор">Администратор</option>
               <option value="Гость">Гость</option>
             </select>
           </div>

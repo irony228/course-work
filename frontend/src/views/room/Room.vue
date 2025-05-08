@@ -9,25 +9,31 @@
       <p><strong>Описание:</strong> {{ room.description }}</p>
       <p><strong>Статус:</strong> {{ room.status.name }}</p>
     </div>
-    <!--<router-link :to="'/editRoom/' + room.id">Редактировать</router-link>-->
-    <button @click="$router.push('/editRoom/'+room.id)" class="btn btn-outline-primary">Редактировать</button>
-    <router-link :to="`/booking/${room.id}`">
+    <router-link v-if="currentUser.role === 'Администратор'" :to="`/editRoom/${room.id}`">
+      <button>Редактировать</button>
+    </router-link>
+    <router-link v-if="room.status_id !== 7":to="`/booking/${room.id}`">
       <button>Забронировать</button>
     </router-link>
   </div>
 </template>
 
 <script>
-import { defineComponent, ref, onMounted } from 'vue';
+import { defineComponent, ref, onMounted, computed } from 'vue';
 import { useRouter } from 'vue-router';
 import http from "../../http-common";
+import { useStore } from 'vuex';
 
 export default defineComponent({
   name: "RoomDetails",
     props: ['id'],
     setup(props) {
     const room = ref(null);
-    
+    const store = useStore();
+    const router = useRouter();
+
+    const currentUser = computed(() => store.state.auth.user);
+
     const getRoom = () => {
         http
           .get("/room/" + props.id) // обращаемся к серверу для получения категории, id взят из входных параметров (props)
@@ -41,12 +47,16 @@ export default defineComponent({
       };
 
     onMounted(() => {
+      if (!currentUser.value) {
+        router.push('/login');
+      }
       getRoom();
     });
 
     return {
-         room,
-         };
+      room,
+      currentUser
+      };
   }
 });
 </script>

@@ -2,6 +2,7 @@ var db = require('../config/db.config.js');
 var globalFunctions = require('../config/global.functions.js');
 var Booking = db.booking;
 var Status = db.status;
+var Room = db.room;
 
 exports.findAll = (req, res) => {
     Booking.findAll({
@@ -58,7 +59,8 @@ exports.update = (req, res) => {
     });
 };
 
-exports.findUserBookings = (req,res) => {
+exports.findUserBookings = async (req,res) => {
+    await checkAndUpdateRoomStatus();
     Booking.findAll({
         where: {
             user_id: req.params.user_id
@@ -70,7 +72,7 @@ exports.findUserBookings = (req,res) => {
                 as: 'status' 
             },
             {
-                model: db.room,
+                model: Room,
                 required: true,
                 as: 'room',
                 include: [
@@ -98,3 +100,31 @@ exports.findUserBookings = (req,res) => {
             globalFunctions.sendError(res, err);
         })
 }
+
+const { Op } = require("sequelize");
+
+// Проверка и обновление статусов бронирований и комнат
+const checkAndUpdateRoomStatus = async () => {
+  const outdatedBookings = await Booking.findAll({
+    where: {
+      check_out_date: {
+        [Op.lt]: new Date() // check_out_date < текущего времени
+      },
+      status_id: 2 // только активные бронирования
+    }
+  });
+
+  for (const booking of outdatedBookings) {
+    // Освобождаем комнату
+    await Room.update(
+      { status_id: 6 }, // статус 'Свободна'
+      { where: { id: booking.room_id } }
+    );
+
+    // Меняем статус бронирования на 'Завершено' (допустим, статус 5)
+    await Booking.update(
+      { status_id: 8 },
+      { where: { id: booking.id } }
+    );
+  }
+};

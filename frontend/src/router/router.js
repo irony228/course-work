@@ -79,12 +79,6 @@ const routes = [
         component: () => import('../views/booking/Booking.vue'),
         props: true
     },
-    {
-        path: "/payment/:booking_id",
-        name: "Payment",
-        component: () => import('../views/payment/Payment.vue'),
-        props:true
-    }
 ];
 
 const router = createRouter({

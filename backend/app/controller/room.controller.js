@@ -4,31 +4,59 @@ var Room = db.room;
 var Type = db.type;
 var Status = db.status;
 var Capacity = db.capacity;
+var Booking = db.booking;   
+const { Op } = require("sequelize");
 
-exports.findAll = (req, res) => {
-    Room.findAll({
-        include: [
-            {
-                model: Type,
-                required: true
-            },
-            {
-                model: Status,
-                requried: true,
-                as: 'status'
-            },
-            {
-                model: Capacity,
-                required: true
+exports.findAll = async (req, res) => {
+    try {
+        // 1. Проверка и освобождение просроченных бронирований
+        const outdatedBookings = await Booking.findAll({
+            where: {
+                check_out_date: {
+                    [Op.lt]: new Date() // дата уже в прошлом
+                },
+                status_id: 1 // например, статус "Активно"
             }
-        ]
-        })
-        .then(objects => {
-            globalFunctions.sendResult(res, objects);
-        })
-        .catch(err => {
-            globalFunctions.sendError(res, err);
-        })
+        });
+
+        for (const booking of outdatedBookings) {
+            // Освобождаем комнату
+            await Room.update(
+                { status_id: 6 }, // статус "Свободна"
+                { where: { id: booking.room_id } }
+            );
+
+            // Меняем статус брони на "Завершено"
+            await Booking.update(
+                { status_id: 5 }, // статус "Завершено"
+                { where: { id: booking.id } }
+            );
+        }
+
+        // 2. Отдаём комнаты с актуальными статусами
+        const objects = await Room.findAll({
+            include: [
+                {
+                    model: Type,
+                    required: true
+                },
+                {
+                    model: Status,
+                    required: true,
+                    as: 'status'
+                },
+                {
+                    model: Capacity,
+                    required: true
+                }
+            ]
+        });
+
+        globalFunctions.sendResult(res, objects);
+
+    } catch (err) {
+        globalFunctions.sendError(res, err);
+    }
 };
 
 exports.create = (req, res) => {
