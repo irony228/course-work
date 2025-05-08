@@ -6,107 +6,202 @@
       Список комнат доступен только авторизованным пользователям
     </div>
     <div v-else>
-      <!-- Ссылки -->
-      <router-link class="item" to="/addRoom">Добавить комнату</router-link>
+      <div v-if="currentUser.role === 'Администратор'">
+        <router-link class="item" to="/addRoom">Добавить комнату</router-link>
 
-      <!-- Поиск -->
-      <form @submit="searchRoomsByNumber">
-        <input
-          type="text"
-          name="room_number"
-          id="room_number"
-          placeholder="Номер комнаты"
-          v-model="room_number"
-        />
-        <input type="submit" value="Поиск" />
-        <input type="button" @click="getRooms" value="Сбросить"/>
-      </form>
+        <!-- Поиск по номеру -->
+        <form>
+          <input
+            type="text"
+            placeholder="Номер комнаты"
+            v-model="room_number"
+            class="input-text"
+            style="display: inline"
+          />
+          <button @click="searchRoomsByNumber" style="margin:10px">Поиск</button>
+          <button @click="getRooms">Сбросить</button>
+        </form>
+      </div>
 
-      <!-- Вывод списка комнат -->
+      <!-- Фильтры -->
+      <div class="filters">
+        <label>Тип комнаты:
+          <select v-model="selectedType">
+            <option value="">Все</option>
+            <option v-for="type in roomTypes" :key="type.id" :value="type.id">
+              {{ type.name }}
+            </option>
+          </select>
+        </label>
+
+        <label>Вместимость:
+          <select v-model="selectedCapacity">
+            <option value="">Все</option>
+            <option v-for="capacity in capacities" :key="capacity.id" :value="capacity.id">
+              {{ capacity.name }}
+            </option>
+          </select>
+        </label>
+
+        <label>Цена от:
+          <input type="number" v-model="priceFrom" min="0" class="input-text"/>
+        </label>
+
+        <label>до:
+          <input type="number" v-model="priceTo" min="0" class="input-text"/>
+        </label>
+
+        <button @click="filterRooms">Применить фильтр</button>
+        <button @click="resetFilters">Сбросить фильтры</button>
+      </div>
+
+      <!-- Список -->
       <div v-if="rooms.length === 0">
-        <p>Комнат с таким номером не найдено</p>
+        <p>Комнат не найдено</p>
       </div>
       <ul>
-        <li v-for="(room, index) in rooms" :key="index" style="text-align: left">
+        <li v-for="(room, index) in rooms" :key="index">
           <router-link
-            :to="{
-              name: 'room-details',
-              params: { id: room.id },
-            }"
+            :to="{ name: 'room-details', params: { id: room.id } }"
           >
             {{ room.room_number }},
             {{ room.type.name }},
             {{ room.capacity.name }},
-            {{ room.price }},
+            {{ room.price }}₽,
             {{ room.status.name }}
           </router-link>
         </li>
       </ul>
     </div>
   </div>
-  
 </template>
 
 <script>
-import { defineComponent, ref, onMounted } from "vue";
+import { defineComponent, ref, onMounted, computed } from "vue";
 import http from "../../http-common";
 import UserService from '../../services/user.service';
+import { useStore } from 'vuex';
 
 export default defineComponent({
   name: "ListRooms",
   setup() {
     const rooms = ref([]);
+    const roomTypes = ref([]);
+    const capacities = ref([]);
     const room_number = ref("");
     const displayContent = ref(false);
+
+    const selectedType = ref("");
+    const selectedCapacity = ref("");
+    const priceFrom = ref("");
+    const priceTo = ref("");
+
+    const store = useStore();
+    const currentUser = computed(() => store.state.auth.user);
 
     const getRooms = () => {
       room_number.value = "";
       http
         .get("/listRooms")
-        .then((response) => {
+        .then(response => {
           rooms.value = response.data;
         })
-        .catch((e) => {
+        .catch(e => {
           console.log(e);
         });
     };
 
-    const searchRoomsByNumber = (e) => {
-      e.preventDefault();
+    const getRoomTypes = () => {
+      http
+        .get("/types")
+        .then(response => {
+          roomTypes.value = response.data;
+        })
+        .catch(e => {
+          console.log(e);
+        });
+    };
+
+    const getCapacities = () => {
+      http
+        .get("/capacities")
+        .then(response => {
+          capacities.value = response.data;
+        })
+        .catch(e => {
+          console.log(e);
+        });
+    };
+
+    const searchRoomsByNumber = () => {
       if (!room_number.value) {
         getRooms();
         return;
       }
-
       http
         .get("/room/number/" + room_number.value)
-        .then((response) => {
-          console.log(response.data);
+        .then(response => {
           rooms.value = response.data;
         })
-        .catch((e) => {
+        .catch(e => {
           console.log(e);
         });
+    };
+
+    const filterRooms = () => {
+      const params = {
+        type: selectedType.value,
+        capacity: selectedCapacity.value,
+        price_from: priceFrom.value,
+        price_to: priceTo.value,
+      };
+
+      http
+        .get("/listRooms", { params })
+        .then(response => {
+          rooms.value = response.data;
+        })
+        .catch(e => {
+          console.log(e);
+        });
+    };
+
+    const resetFilters = () => {
+      selectedType.value = "";
+      selectedCapacity.value = "";
+      priceFrom.value = "";
+      priceTo.value = "";
+      getRooms();
     };
 
     onMounted(() => {
       UserService.getUserBoard()
         .then(() => {
-          displayContent.value = true; // если пользователь авторизован, показываем контент
+          displayContent.value = true;
           getRooms();
+          getRoomTypes();
+          getCapacities();
         })
         .catch(e => {
           console.error((e.response && e.response.data) || e.message || e.toString());
         });
-      //getRooms();
     });
 
     return {
       rooms,
+      roomTypes,
+      capacities,
       room_number,
+      selectedType,
+      selectedCapacity,
+      priceFrom,
+      priceTo,
       getRooms,
       searchRoomsByNumber,
-      displayContent
+      filterRooms,
+      resetFilters,
+      displayContent,
+      currentUser
     };
   },
 });
@@ -115,5 +210,11 @@ export default defineComponent({
 <style>
 .item {
   margin-left: 5px;
+}
+.filters {
+  margin-top: 20px;
+}
+.filters label {
+  margin-right: 15px;
 }
 </style>

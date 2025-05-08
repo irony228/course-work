@@ -13,28 +13,48 @@ exports.findAll = async (req, res) => {
         const outdatedBookings = await Booking.findAll({
             where: {
                 check_out_date: {
-                    [Op.lt]: new Date() // дата уже в прошлом
+                    [Op.lt]: new Date()
                 },
-                status_id: 1 // например, статус "Активно"
+                status_id: 1
             }
         });
 
         for (const booking of outdatedBookings) {
-            // Освобождаем комнату
             await Room.update(
-                { status_id: 6 }, // статус "Свободна"
+                { status_id: 6 },
                 { where: { id: booking.room_id } }
             );
 
-            // Меняем статус брони на "Завершено"
             await Booking.update(
-                { status_id: 5 }, // статус "Завершено"
+                { status_id: 5 },
                 { where: { id: booking.id } }
             );
         }
 
-        // 2. Отдаём комнаты с актуальными статусами
+        // 2. Подготовка условий фильтрации
+        const { type, capacity, price_from, price_to } = req.query;
+
+        let condition = {};
+
+        if (type) {
+            condition.type_id = type;
+        }
+        if (capacity) {
+            condition.capacity_id = capacity;
+        }
+        if (price_from) {
+            condition.price = { [Op.gte]: price_from };
+        }
+        if (price_to) {
+            condition.price = {
+                ...(condition.price || {}),
+                [Op.lte]: price_to
+            };
+        }
+
+        // 3. Отдаём комнаты с фильтрами и актуальными статусами
         const objects = await Room.findAll({
+            where: condition,
             include: [
                 {
                     model: Type,
@@ -58,6 +78,7 @@ exports.findAll = async (req, res) => {
         globalFunctions.sendError(res, err);
     }
 };
+
 
 exports.create = (req, res) => {
     Room.create({
