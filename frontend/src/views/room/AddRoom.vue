@@ -2,28 +2,51 @@
     <div>
       <h4>Добавление комнаты</h4>
       <div v-if="!submitted">
-        <!--В @submit указывается обработчик, который выполнится после нажатия на кнопку "Добавить"
-        Обработчик addRoom определён в script-->
         <form @submit="addRoom">
-          <!--v-model - директива для связывания данных с элементами.
-          Связь происходит при помощи переменных, которые определены в setup()-->
-          <input type="text" name="room_number" id="room_number" placeholder="Номер комнаты" required v-model="room.room_number">
-          <select name="type_id" v-model="room.type_id" required>
+          <div class="form-row">
+            <label for="room_number">Номер комнаты:</label>
+            <input type="text" id="room_number" required v-model="room.room_number" class="input-text">
+          </div>
+
+          <div class="form-row">
+            <label for="type_id">Тип:</label>
+            <select id="type_id" v-model="room.type_id" required>
               <option v-for="type in types" :key="type.id" :value="type.id">{{type.name}}</option>
-          </select>
-          <!input type="text" name="type_id" id="type_id" placeholder="Класс комнаты" required v-model="room.type_id">
-          <input type="text" name="photo_url" id="photo_url" placeholder="Изображение комнаты" required v-model="room.photo_url">
-          <select name="capacity_id" v-model="room.capacity_id" required>
+            </select>
+          </div>
+
+          <div class="form-row">
+            <label for="photo_url">Изображение:</label>
+            <input type="text" id="photo_url" required v-model="room.photo_url" class="input-text">
+          </div>
+
+          <div class="form-row">
+            <label for="capacity_id">Вместимость:</label>
+            <select id="capacity_id" v-model="room.capacity_id" required>
               <option v-for="capacity in capacities" :key="capacity.id" :value="capacity.id">{{capacity.name}}</option>
-          </select>
-          <!input type="text" name="capacity_id" id="capacity_id" placeholder="Вместимость комнаты" required v-model="room.capacity_id">
-          <input type="text" name="price" id="price" placeholder="Цена комнаты" required v-model="room.price">
-          <input type="text" name="description" id="description" placeholder="Описание комнаты" required v-model="room.description">
-          <select name="status_id" v-model="room.status_id" required>
+            </select>
+          </div>
+
+          <div class="form-row">
+            <label for="price">Цена:</label>
+            <input type="text" id="price" required v-model="room.price" class="input-text">
+          </div>
+
+          <div class="form-row">
+            <label for="description">Описание:</label>
+            <input type="text" id="description" required v-model="room.description" class="input-text">
+          </div>
+
+          <div class="form-row">
+            <label for="status_id">Статус:</label>
+            <select id="status_id" v-model="room.status_id" required>
               <option v-for="status in statuses.filter(s => s.entity_type === 'room')" :key="status.id" :value="status.id">{{status.name}}</option>
-          </select>
-          <!input type="text" name="status_id" id="status_id" placeholder="Статус комнаты" required v-model="room.status_id">
-          <input type="submit" value="Добавить">
+            </select>
+          </div>
+
+          <div class="form-row">
+            <button type="submit">Добавить</button>
+          </div>
         </form>
       </div>
       <div v-else>

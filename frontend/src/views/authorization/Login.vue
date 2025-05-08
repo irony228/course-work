@@ -1,20 +1,23 @@
 <template>
-    <div class="col-md-5 mx-auto mt-4">
+    <div>
         <h4 class="text-center">Вход в систему</h4>
         <form @submit.prevent="handleLogin">
             <div class="form-group mb-3">
-                <input type="text" class="form-control" placeholder="Логин" v-model="user.username" required />
+                <input type="text" class="input-text" placeholder="Логин" v-model="user.username" required/>
             </div>
             <div class="form-group mb-3">
-                <input type="password" class="form-control" placeholder="Пароль" v-model="user.password" required />
+                <input type="password" class="input-text" placeholder="Пароль" v-model="user.password" required />
             </div>
             <div class="form-group text-center">
-                <button class="btn btn-primary  btn-block" :disabled="loading">
+                <button :disabled="loading">
                     <span v-if="loading" class="spinner-border spinner-border-sm"></span>
                     <span>Войти</span>
                 </button>
             </div>
-            <router-link to="/register">Зарегистрироваться</router-link>
+            
+            <router-link to="/register">
+                <button>Зарегистрироваться</button>
+            </router-link>
             <div class="form-group">
                 <div v-if="message" class="alert alert-danger" role="alert">{{ message }}</div>
             </div>
@@ -56,3 +59,8 @@ export default {
     }
 };
 </script>
+<style>
+    button{
+        margin:5px; 
+    }
+</style>

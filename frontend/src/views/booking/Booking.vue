@@ -4,12 +4,14 @@
     <p>Комната № {{ room_id }}</p>
 
     <form @submit.prevent="createBooking">
-      <label>Дата заезда:</label>
-      <input type="date" v-model="check_in_date" :min="today" required>
-
-      <label>Дата выезда:</label>
-      <input type="date" v-model="check_out_date" :min="check_in_date || today" required>
-
+      <div class="form-row">
+        <label>Дата заезда:</label>
+        <input type="date" v-model="check_in_date" :min="today" required class="input-date">
+      </div>
+      <div class="form-row">
+        <label>Дата выезда:</label>
+        <input type="date" v-model="check_out_date" :min="check_in_date || today" required class="input-date">
+      </div>
       <p>Итоговая стоимость: {{ totalPrice }}₽</p>
 
       <button type="submit" :disabled="!canBook">Подтвердить бронирование</button>

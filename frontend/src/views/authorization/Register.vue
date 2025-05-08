@@ -1,39 +1,39 @@
 <template>
-    <div class="col-md-5 mx-auto mt-4">
+    <div>
       <h4 class="text-center">Регистрация пользователя</h4>
-      <form @submit.prevent="handleRegister" class="registration-form">
+      <form @submit.prevent="handleRegister">
         <div v-if="!successful">
           <div class="form-group mb-3">
-            <input type="text" class="form-control" placeholder="Логин" v-model="user.username" required />
+            <input type="text" class="input-text" placeholder="Логин" v-model="user.username" required />
             <div v-if="usernameError" class="text-danger">{{ usernameError }}</div>
           </div>
           <div class="form-group mb-3">
-            <input type="password" class="form-control" placeholder="Пароль" v-model="user.password" required />
+            <input type="password" class="input-text" placeholder="Пароль" v-model="user.password" required />
             <div v-if="passwordError" class="text-danger">{{ passwordError }}</div>
           </div>
           <div class="form-group mb-3">
-            <select class="form-control" v-model="user.role" required>
+            <select class="input-select" v-model="user.role" required>
               <option value="" disabled selected>Выберите роль</option>
               <option value="Гость">Гость</option>
             </select>
           </div>
           <div class="form-group mb-3">
-            <input type="text" class="form-control" placeholder="Фамилия" v-model="user.lastname" required />
+            <input type="text" class="input-text" placeholder="Фамилия" v-model="user.lastname" required />
           </div>
           <div class="form-group mb-3">
-            <input type="text" class="form-control" placeholder="Имя" v-model="user.firstname" required />
+            <input type="text" class="input-text" placeholder="Имя" v-model="user.firstname" required />
           </div>
           <div class="form-group mb-3">
-            <input type="text" class="form-control" placeholder="Отчество" v-model="user.middlename" required />
+            <input type="text" class="input-text" placeholder="Отчество" v-model="user.middlename" required />
           </div>
           <div class="form-group mb-3">
-            <input type="text" class="form-control" placeholder="Номер телефона" v-model="user.phone_number" required />
+            <input type="text" class="input-text" placeholder="Номер телефона" v-model="user.phone_number" required />
           </div>
           <div class="form-group mb-3">
-            <input type="text" class="form-control" placeholder="Email" v-model="user.email" required />
+            <input type="text" class="input-text" placeholder="Email" v-model="user.email" required />
           </div>
           <div class="form-group text-center">
-            <button class="btn btn-primary btn-block">Зарегистрировать</button>
+            <button>Зарегистрировать</button>
           </div>
         </div>
         <div class="form-group">
@@ -120,3 +120,8 @@ export default {
   }
 };
 </script>
+<style>
+  .input-text{
+    display:inline;
+  }
+</style>

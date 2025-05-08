@@ -24,12 +24,10 @@ a:hover {
 
 body {
   margin: 0;
-  display: flex;
+  display: flex ;
   place-items: center;
   min-width: 320px;
-  min-height: 100vh;
   background-color:#242424;
-  box-shadow: 0px 0px 10px 2px #000000 inset;;
 }
 
 h1 {
@@ -55,6 +53,11 @@ button:hover {
 button:focus,
 button:focus-visible {
   outline: 4px auto -webkit-focus-ring-color;
+}
+button:disabled{
+  cursor:not-allowed;
+  box-shadow: 0px 0px 0px 0px;
+  border: 0;
 }
 
 .card {
@@ -89,28 +92,17 @@ div{
   color:#f9f9f9;
 }
 
-.booking-item{
-  margin-top: 10px;
-  border-radius: 15px;
-  border-color: #213747;
-  padding: 15px;
-  background-color: #1a1a1a;
-  transition: 0.15s;
-}
-
-.booking-item:hover{
-  box-shadow: 0px 0px 10px 1px #000000;
-  transform: scale(1.05);
-}
-
 select{
-  display: block;
+  display: flex;
   padding: 0.6em 1.2em;
   border-color: #1a1a1a;
   font-size: 1rem;
   color: #ffffff;
   background-color: #1a1a1a;
   border-radius: 8px;
+  margin: auto;
+  margin-top: 5px;
+  margin-bottom: 5px;
   transition: 0.25s;
 }
 select:hover{
@@ -131,6 +123,25 @@ select:hover{
 .input-text:hover{
   border-color: #6c757d;
   box-shadow: 0px 0px 6px 1px;
+}
+
+input:-webkit-autofill,
+input:-webkit-autofill:hover, 
+input:-webkit-autofill:focus, 
+input:-webkit-autofill:active{
+    -webkit-box-shadow: 0 0 0 30px #1a1a1a inset !important;
+}
+
+.input-date{
+  display: block;
+  padding: 0.4em 1.2em;
+  border-color: #1a1a1a;
+  font-size: 1rem;
+  color: #ffffff;
+  background-color: #1a1a1a;
+  border-radius: 8px;
+  transition: 0.25s;
+  margin: auto;
 }
 
 .room-grid {
@@ -178,4 +189,102 @@ select:hover{
 .room-card:hover .room-photo {
   padding-bottom: 0px;
   transform: scale(1);
+}
+
+.booking-list {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+}
+
+.booking-item{
+  margin: 10px;
+  border-radius: 15px;
+  padding: 15px;
+  background-color: #1a1a1a;
+  transition: 0.25s ;
+}
+
+.booking-item:hover{
+  box-shadow: 0px 0px 10px 1px #000000;
+  transform: scale(1.05);
+}
+
+.pagination {
+  margin-top: 20px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.pagination button {
+  padding: 10px 20px;
+  margin: 0 10px;
+  background-color: #1a1a1a;
+  color: white;
+  border: none;
+  border-radius: 5px;
+  cursor: pointer;
+}
+
+.pagination button:disabled {
+  background-color: #1a1a1a;
+  cursor: not-allowed;
+  visibility: hidden;
+}
+
+.navbar {
+  position: fixed; /* Фиксируем навбар в верхней части экрана */
+  top: 0;
+  left: 0;
+  width: 100%; /* Ширина на всю страницу */
+  z-index: 1000; /* Чтобы он был поверх других элементов */
+  background-color: #1a1a1a; /* Установите нужный цвет фона */
+  box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1); /* Легкая тень для выделения */
+  margin-bottom: 0; /* Убираем отступ снизу */
+}
+
+.navbar-nav .nav-link {
+  margin-right: 15px;
+  color:#ffffff /* Расстояние между элементами */
+}
+
+.navbar-nav .nav-link.active, .navbar-nav .nav-link.show {
+  margin-right: 15px;
+  color:#fff;
+}
+.nav-link:hover {
+  color: gray; /* Цвет текста при наведении */
+  cursor: pointer;
+}
+
+.navbar-brand{
+  color: #fff;
+}
+.navbar-brand.show{
+  color: #fff;
+}
+.navbar-brand:hover{
+  color: #fff;
+  cursor:default;
+}
+
+.dropdown-menu{
+  background-color:#1a1a1a;
+}
+
+.dropdown-divider{
+  background-color:gray;
+}
+
+.description{
+  text-align: left;
+}
+
+.room-class{
+  margin-top: 0;
+  padding: 25px;
+  border-radius: 25px;
+  background-color: #1a1a1a;
+  transition: 1.25s;
 }

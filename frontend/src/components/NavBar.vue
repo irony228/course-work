@@ -1,26 +1,39 @@
 <template>
   <div id="app">
     <nav class="navbar navbar-expand-lg">
-      <router-link class="item" to="/listRooms">Комнаты</router-link>
-      <div v-if="currentUser">
-        <router-link to="/profile">
-          {{ currentUser.username }}
-        </router-link>
-        <a href @click.prevent="logOut">
-          Выйти
-        </a>
-      </div>
-      <div v-else>
-        <router-link to="/login">
-            Войти
-        </router-link>
+      <div class="container-fluid">
+        <a class="navbar-brand">Мой отель</a>
+        <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNavDropdown" aria-controls="navbarNavDropdown" aria-expanded="false" aria-label="Toggle navigation">
+          <span class="navbar-toggler-icon"></span>
+        </button>
+        <div class="collapse navbar-collapse" id="navbarNavDropdown">
+          <ul class="navbar-nav ms-auto"> <!-- 'ms-auto' выравнивает элементы вправо -->
+            <li class="nav-item">
+              <router-link class="nav-link" to="/listRooms">Комнаты</router-link>
+            </li>
+            <li v-if="currentUser"  class="nav-item dropdown">
+              <a class="nav-link dropdown-toggle"role="button" href="#" data-bs-toggle="dropdown" aria-expanded="false">
+                Профиль
+              </a>
+              <ul class="dropdown-menu">
+                <li><router-link class="nav-link" to="/profile">{{ currentUser.firstname }}</router-link></li>
+                <li><hr class="dropdown-divider"></li>
+                <li><a @click.prevent="logOut" class="nav-link">Выйти</a></li>
+              </ul>
+            </li>
+
+            <li v-else class="nav-item">
+              <router-link class="nav-link" to="/login">Войти</router-link>
+            </li>
+          </ul>
+        </div>
       </div>
     </nav>
   </div>
 </template>
-  
+
 <script>
-import { computed } from 'vue'; 
+import { computed } from 'vue';
 import { useStore } from 'vuex';
 
 export default {
@@ -47,9 +60,4 @@ export default {
   }
 };
 </script>
-  
-<style>
-  .item {
-    margin-right: 5px;
-  }
-</style>
+

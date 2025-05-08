@@ -1,5 +1,6 @@
 import { createApp } from 'vue' // Импорт метода для создания приложения
 import 'bootstrap/dist/css/bootstrap.css'
+import 'bootstrap/dist/js/bootstrap.bundle.js'
 import './style.css'
 import App from './App.vue' // Импорт главного компонента
 import router from './router/router.js' // Маршрутизация

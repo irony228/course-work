@@ -1,7 +1,7 @@
 <template>
-  <div v-if="room">
+  <div v-if="room" class="room-class">
     <h4>Комната №{{ room.room_number }}</h4>
-    <p><img :src="room.photo_url" alt="Фото комнаты" width="600" class="rounded mx-auto d-block"></p>
+    <p><img :src="`../public/images/${room.photo_url}`" alt="Фото комнаты" width="600" class="rounded mx-auto d-block"></p>
     <div class="description">
       <p><strong>Класс:</strong> {{ room.type.name }}</p>
       <p><strong>Вместимость:</strong> {{ room.capacity.name }}</p>
@@ -60,3 +60,6 @@ export default defineComponent({
   }
 });
 </script>
+<style>
+  button{  margin: 5px;}
+</style>

@@ -7,8 +7,9 @@
     </div>
     <div v-else>
       <div v-if="currentUser.role === 'Администратор'">
-        <router-link class="item" to="/addRoom">Добавить комнату</router-link>
-
+        <router-link to="/addRoom">
+          <button>Добавить комнату</button>
+        </router-link>
         <!-- Поиск по номеру -->
         <form @submit.prevent="searchRoomsByNumber">
           <input
@@ -64,7 +65,7 @@
         <div v-for="(room, index) in rooms" :key="index" class="room-card">
           <router-link :to="{ name: 'room-details', params: { id: room.id } }">
             <img
-              :src="room.photo_url || '/default-room.jpg'"
+              :src="`../public/images/${room.photo_url}`"
               alt="Фото комнаты"
               class="room-photo"
             />
