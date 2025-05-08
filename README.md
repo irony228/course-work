@@ -1,2 +1,12 @@
-# course-work
-course work on the discipline "Development of web applications (PI) 2024" on the topic "Hotel room reservation system"
+# Курсовая работа
+Курсовая работа по дисциплине "Разработка веб-приложений (ПИ) 2024" на тему "Система бронирования номеров в гостинице"
+Запуск бека из директории \backend\
+```
+npm i
+npm start
+```
+Запуск фронта из директории \frontend\
+```
+npm i
+npm run dev
+```
