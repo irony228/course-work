@@ -60,7 +60,7 @@ exports.update = (req, res) => {
 };
 
 exports.findUserBookings = async (req,res) => {
-    await checkAndUpdateRoomStatus();
+    //await checkAndUpdateRoomStatus();
     Booking.findAll({
         where: {
             user_id: req.params.user_id
@@ -110,7 +110,7 @@ const checkAndUpdateRoomStatus = async () => {
       check_out_date: {
         [Op.lt]: new Date() // check_out_date < текущего времени
       },
-      status_id: 2 // только активные бронирования
+      [Op.or]: [{status_id: 2},{status_id: 1},{status_id: 3}], // только активные бронирования
     }
   });
 

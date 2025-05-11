@@ -4,6 +4,9 @@ var bodyParser = require('body-parser');
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: false }));
 
+require("./app/controller/bookingRoomCheck.controller.js");
+require('./app/controller/bookingTimer.controller.js');
+
 var db = require('./app/config/db.config.js'); // подключение настроек базы данных
 
 db.sequelize.sync({force: false});
