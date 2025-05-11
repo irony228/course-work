@@ -27,7 +27,7 @@
       <!-- Фильтры -->
       <div class="filters">
         <label>Тип комнаты:
-          <select v-model="selectedType">
+          <select v-model="selectedType" class="input-select">
             <option value="">Все</option>
             <option v-for="type in roomTypes" :key="type.id" :value="type.id">
               {{ type.name }}
@@ -36,7 +36,7 @@
         </label>
 
         <label>Вместимость:
-          <select v-model="selectedCapacity">
+          <select v-model="selectedCapacity" class="input-select">
             <option value="">Все</option>
             <option v-for="capacity in capacities" :key="capacity.id" :value="capacity.id">
               {{ capacity.name }}

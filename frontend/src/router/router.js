@@ -87,6 +87,14 @@ const routes = [
             title: "Бронирования"
         }
     },
+    {
+        path: "/admin/users",
+        name: "AllUsers",
+        component: () => import('../views/admin/ListUsers.vue'),
+        meta: {
+            title: "Пользователи"
+        }
+    },
       
 ];
 

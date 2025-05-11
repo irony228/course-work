@@ -144,6 +144,11 @@ input:-webkit-autofill:active{
   margin: auto;
 }
 
+.input-select{
+  display: block;
+  padding: 0.6em;
+}
+
 .room-grid {
   display: grid;
   grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));

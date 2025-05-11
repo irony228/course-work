@@ -1,15 +1,46 @@
 var db = require('../config/db.config.js');
 var globalFunctions = require('../config/global.functions.js');
 var User = db.user;
+const { Op } = require("sequelize");
+// exports.findAll = (req, res) => {
+//     User.findAll()
+//         .then(objects => {
+//             globalFunctions.sendResult(res, objects);
+//         })
+//         .catch(err => {
+//             globalFunctions.sendError(res, err);
+//         })
+// };
 
-exports.findAll = (req, res) => {
-    User.findAll()
-        .then(objects => {
-            globalFunctions.sendResult(res, objects);
-        })
-        .catch(err => {
-            globalFunctions.sendError(res, err);
-        })
+exports.findAll = async (req, res) => {
+    try {
+        const { id, lastname, firstname, email, role} = req.query;
+
+        let condition = {};
+
+        if(id){
+            condition.id = id;
+        }
+        if(lastname){
+            condition.lastname = {[Op.like]: `%${lastname}%`};
+        }
+        if(firstname){
+            condition.firstname = {[Op.like]: `%${firstname}%`};
+        }
+        if(email){
+            condition.email = {[Op.like]: `%${email}%`};
+        }
+        if(role){
+            condition.role = {[Op.like]: `%${role}%`};
+        }
+
+        const objects = await User.findAll({
+            where:condition
+        });
+        globalFunctions.sendResult(res, objects);  
+    } catch (err){
+        globalFunctions.sendError(res, err);
+    }
 };
 
 exports.create = (req, res) => {
