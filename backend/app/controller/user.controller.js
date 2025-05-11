@@ -14,7 +14,7 @@ const { Op } = require("sequelize");
 
 exports.findAll = async (req, res) => {
     try {
-        const { id, lastname, firstname, email, role} = req.query;
+        const { id, lastname, firstname, email, role, phone_number} = req.query;
 
         let condition = {};
 
@@ -33,7 +33,9 @@ exports.findAll = async (req, res) => {
         if(role){
             condition.role = {[Op.like]: `%${role}%`};
         }
-
+        if(phone_number){
+            condition.phone_number = {[Op.like]: `%${phone_number}%`};
+        }
         const objects = await User.findAll({
             where:condition
         });

@@ -16,6 +16,9 @@
       <label>Email:
         <input type="text" v-model="email" class="input-text" />
       </label>
+      <label>Номер телефона:
+        <input type="text" v-model="phone_number" class="input-text" />
+      </label>
       <label>Роль:
         <select v-model="role" class="input-select">
           <option value="">Все</option>
@@ -35,7 +38,9 @@
           <th @click="sortBy('lastname')">Фамилия <span v-if="sortColumn === 'lastname'">{{ sortDirection === 1 ? `▲` : `▼` }}</span></th>
           <th @click="sortBy('firstname')">Имя <span v-if="sortColumn === 'firstname'">{{ sortDirection === 1 ? `▲` : `▼` }}</span></th>
           <th @click="sortBy('email')">Email <span v-if="sortColumn === 'email'">{{ sortDirection === 1 ? `▲` : `▼` }}</span></th>
+          <th @click="sortBy('phone_number')">Номер телефона <span v-if="sortColumn === 'phone_number'">{{ sortDirection === 1 ? `▲` : `▼` }}</span></th>
           <th @click="sortBy('role')">Роль <span v-if="sortColumn === 'role'">{{ sortDirection === 1 ? `▲` : `▼` }}</span></th>
+          <th>Изменить роль</th>
         </tr>
       </thead>
       <tbody>
@@ -44,7 +49,14 @@
           <td>{{ user.lastname }}</td>
           <td>{{ user.firstname }}</td>
           <td>{{ user.email }}</td>
+          <td>{{ user.phone_number }}</td>
           <td>{{ user.role }}</td>
+          <td>
+            <select v-model="user.role" @change="updateRole(user)" class="input-select">
+              <option value="Администратор">Администратор</option>
+              <option value="Гость">Гость</option>
+            </select>
+          </td>
         </tr>
       </tbody>
     </table>
@@ -68,6 +80,7 @@ export default {
     const lastname = ref("");
     const firstname = ref("");
     const email = ref("");
+    const phone_number = ref("");
     const role = ref("");
     const currentUser = computed(() => store.state.auth.user);
 
@@ -90,6 +103,7 @@ export default {
         lastname: lastname.value,
         firstname: firstname.value,
         email: email.value,
+        phone_number: phone_number.value,
         role: role.value
       };
 
@@ -103,13 +117,24 @@ export default {
         });
     };
 
-
+    const updateRole = (user) => {
+      http.post(`/updateUser/${user.id}`, {
+        role: user.role
+      }, {
+        headers: { "x-access-token": store.state.auth.token },
+      })
+      .then(() => {
+        fetchUsers();
+      })
+      .catch(e => console.error(e));
+    };
     
     const resetFilters = () => {
       userId.value = "";
       lastname.value = "";
       firstname.value = "";
       email.value = "";
+      phone_number.value = "";
       role.value = "";
       fetchUsers();
     };
@@ -159,10 +184,12 @@ export default {
       lastname,
       firstname,
       email,
+      phone_number,
       role,
       filterUsers,
       resetFilters,
-      currentUser
+      currentUser,
+      updateRole
     };
   },
 };
