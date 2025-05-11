@@ -12,7 +12,7 @@ const checkAndUpdateRoomStatus = async () => {
         check_out_date: {
           [Op.lt]: new Date() // время уже вышло
         },
-        [Op.or]: [{status_id: 2},{status_id: 1},{status_id: 3}], // активные брони
+        [Op.or]: [{status_id: 2},{status_id: 1}], // активные брони
       }
     });
 
@@ -25,7 +25,7 @@ const checkAndUpdateRoomStatus = async () => {
 
       // Меняем статус брони на 'Завершено'
       await Booking.update(
-        { status_id: 5 },
+        { status_id: 3 },
         { where: { id: booking.id } }
       );
 

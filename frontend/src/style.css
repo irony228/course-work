@@ -288,3 +288,67 @@ input:-webkit-autofill:active{
   background-color: #1a1a1a;
   transition: 1.25s;
 }
+
+table {
+  width: 100%;
+  border-collapse: collapse;
+  background-color: rgb(34, 34, 34);
+}
+
+th, td {
+  border: 1px solid #000;
+  padding: 8px;
+  text-align: center;
+}
+
+th {
+  background-color: #1a1a1a;
+  color: #fff;
+  cursor: pointer;
+  user-select: none;
+}
+
+table thead th {
+  text-align: center;
+}
+
+select {
+  padding: 5px;
+}
+
+.status-badge {
+  display: inline-block;
+  padding: 4px 10px;
+  border-radius: 12px;
+  color: #fff;
+  font-size: 0.9em;
+  font-weight: bold;
+  text-transform: capitalize;
+}
+
+.status-paid {
+  background-color: #5cb85c;
+}
+
+.status-cancelled {
+  background-color: #d9534f;
+}
+
+.status-booked {
+  background-color:rgb(230, 126, 7);
+}
+
+.status-finished {
+  background-color: #6f42c1;
+}
+
+.status-default {
+  background-color: #999;
+}
+
+.filters {
+  margin-top: 20px;
+}
+.filters label {
+  margin-right: 10px;
+}

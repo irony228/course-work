@@ -4,6 +4,8 @@ module.exports = (app) => {
 
     const booking = require('../controller/booking.controller');
     
+    app.get('/api/listBookings',[authJwt.verifyToken], booking.findAll);
+
     app.get('/api/bookings/:user_id', [authJwt.verifyToken],  booking.findUserBookings);
 
     app.post('/api/addBooking',  [authJwt.verifyToken], booking.create);

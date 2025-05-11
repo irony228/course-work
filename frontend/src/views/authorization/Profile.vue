@@ -108,7 +108,7 @@ export default {
 
     const goToPayment = (booking) => {
       http.post(`/updatePayment/${booking.id}`, {
-        status_id: 4,
+        status_id: 2,
         payment_date: new Date()
       }, {
         headers: {

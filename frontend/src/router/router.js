@@ -79,6 +79,15 @@ const routes = [
         component: () => import('../views/booking/Booking.vue'),
         props: true
     },
+    {
+        path: "/admin/bookings",
+        name: "AllBookings",
+        component: () => import('../views/admin/ListBookings.vue'),
+        meta: {
+            title: "Бронирования"
+        }
+    },
+      
 ];
 
 const router = createRouter({

@@ -3,22 +3,98 @@ var globalFunctions = require('../config/global.functions.js');
 var Booking = db.booking;
 var Status = db.status;
 var Room = db.room;
+var User = db.user;
+const { Op } = require("sequelize");
+// exports.findAll = (req, res) => {
+//     const where = {};
 
-exports.findAll = (req, res) => {
-    Booking.findAll({
-        include: [
+//     if (req.query.status_id) where.status_id = req.query.status_id;
+//     if (req.query.user_id) where.user_id = req.query.user_id;
+//     if (req.query.room_id) where.room_id = req.query.room_id;
+//     if (req.query.date_from && req.query.date_to) {
+//         where.check_in_date = {
+//             [db.Sequelize.Op.between]: [req.query.date_from, req.query.date_to]
+//         };
+//     }
+
+//     Booking.findAll({
+//         where,
+//         include: [
+//             { model: Status, as: 'status' },
+//             { model: User, as: 'user' },
+//             { model: Room, as: 'room' }
+//         ]
+//     })
+//     .then(objects => {
+//         globalFunctions.sendResult(res, objects);
+//     })
+//     .catch(err => {
+//         globalFunctions.sendError(res, err);
+//     });
+// };
+
+exports.findAll = async (req, res) => {
+    try {
+        const { price_from, price_to, user_id, lastname, date_from, date_to } = req.query;
+
+        let condition = {};
+        let include = [
             {
                 model: Status,
-                as: 'status' 
+                as: 'status'
+            },
+            {
+                model: Room,
+                as: 'room'
             }
-        ]
-        })
-        .then(objects => {
-            globalFunctions.sendResult(res, objects);
-        })
-        .catch(err => {
-            globalFunctions.sendError(res, err);
-        })
+        ];
+        
+        if(price_from){
+            condition.price = { [Op.gte]: price_from};
+        }
+        if(price_to){
+            condition.price = {
+                ...(condition.price || {}),
+                [Op.lte]: price_to
+            };
+        }
+        if(user_id){
+            condition.user_id = user_id;
+        }
+        if(date_from){
+            condition.created = {[Op.gte]: date_from};
+        }
+        if(date_to){
+            condition.created = {
+                ...(condition.created || {}),
+                [Op.lte]: date_to
+            };
+        }
+        if (lastname) {
+            include.push({
+                model: User,
+                as: 'user',
+                where: {
+                    lastname: {
+                        [Op.like]: `%${lastname}%`
+                    }
+                }
+            });
+        } else {
+            include.push({
+                model: User,
+                as: 'user'
+            });
+        }
+
+        const objects = await Booking.findAll({
+            where: condition,
+            include: include
+        });
+        globalFunctions.sendResult(res,objects);
+    } catch (err){
+        globalFunctions.sendError(res, err);
+    }
 };
 
 exports.create = (req, res) => {
@@ -101,7 +177,6 @@ exports.findUserBookings = async (req,res) => {
         })
 }
 
-const { Op } = require("sequelize");
 
 // Проверка и обновление статусов бронирований и комнат
 const checkAndUpdateRoomStatus = async () => {
@@ -110,7 +185,7 @@ const checkAndUpdateRoomStatus = async () => {
       check_out_date: {
         [Op.lt]: new Date() // check_out_date < текущего времени
       },
-      [Op.or]: [{status_id: 2},{status_id: 1},{status_id: 3}], // только активные бронирования
+      [Op.or]: [{status_id: 2},{status_id: 1}], // только активные бронирования
     }
   });
 

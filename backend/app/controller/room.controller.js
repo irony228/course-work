@@ -7,105 +7,81 @@ var Capacity = db.capacity;
 var Booking = db.booking;   
 const { Op } = require("sequelize");
 
-// exports.findAll = async (req, res) => {
-//     try {
-//         // 1. Проверка и освобождение просроченных бронирований
-//         const outdatedBookings = await Booking.findAll({
-//             where: {
-//                 check_out_date: {
-//                     [Op.lt]: new Date()
-//                 },
-//                 [Op.or]: [{status_id: 2},{status_id: 1},{status_id: 3}],
-//             }
-//         });
+exports.findAll = async (req, res) => {
+    try {
+        const { type, capacity, price_from, price_to } = req.query;
 
-//         for (const booking of outdatedBookings) {
-//             await Room.update(
-//                 { status_id: 6 },
-//                 { where: { id: booking.room_id } }
-//             );
+        let condition = {};
 
-//             await Booking.update(
-//                 { status_id: 5 },
-//                 { where: { id: booking.id } }
-//             );
-//         }
+        if (type) {
+            condition.type_id = type;
+        }
+        if (capacity) {
+            condition.capacity_id = capacity;
+        }
+        if (price_from) {
+            condition.price = { [Op.gte]: price_from };
+        }
+        if (price_to) {
+            condition.price = {
+                ...(condition.price || {}),
+                [Op.lte]: price_to
+            };
+        }
 
-//         // 2. Подготовка условий фильтрации
-//         const { type, capacity, price_from, price_to } = req.query;
+        const objects = await Room.findAll({
+            where: condition,
+            include: [
+                {
+                    model: Type,
+                    required: true
+                },
+                {
+                    model: Status,
+                    required: true,
+                    as: 'status'
+                },
+                {
+                    model: Capacity,
+                    required: true
+                }
+            ]
+        });
 
-//         let condition = {};
+        globalFunctions.sendResult(res, objects);
 
-//         if (type) {
-//             condition.type_id = type;
-//         }
-//         if (capacity) {
-//             condition.capacity_id = capacity;
-//         }
-//         if (price_from) {
-//             condition.price = { [Op.gte]: price_from };
-//         }
-//         if (price_to) {
-//             condition.price = {
-//                 ...(condition.price || {}),
-//                 [Op.lte]: price_to
-//             };
-//         }
-
-//         // 3. Отдаём комнаты с фильтрами и актуальными статусами
-//         const objects = await Room.findAll({
-//             where: condition,
-//             include: [
-//                 {
-//                     model: Type,
-//                     required: true
-//                 },
-//                 {
-//                     model: Status,
-//                     required: true,
-//                     as: 'status'
-//                 },
-//                 {
-//                     model: Capacity,
-//                     required: true
-//                 }
-//             ]
-//         });
-
-//         globalFunctions.sendResult(res, objects);
-
-//     } catch (err) {
-//         globalFunctions.sendError(res, err);
-//     }
-// };
-
-exports.findAll = (req, res) => {
-    Room.findAll({
-        include: [
-            {
-                model: Type,
-                required: true,
-                as: 'type'
-            },
-            {
-                model: Status,
-                required: true,
-                as: 'status'
-            },
-            {
-                model: Capacity,
-                required: true,
-                as:'capacity'
-            }
-        ]
-        })
-        .then(objects => {
-            globalFunctions.sendResult(res, objects);
-        })
-        .catch(err => {
-            globalFunctions.sendError(res, err);
-        })
+    } catch (err) {
+        globalFunctions.sendError(res, err);
+    }
 };
+
+// exports.findAll = (req, res) => {
+//     Room.findAll({
+//         include: [
+//             {
+//                 model: Type,
+//                 required: true,
+//                 as: 'type'
+//             },
+//             {
+//                 model: Status,
+//                 required: true,
+//                 as: 'status'
+//             },
+//             {
+//                 model: Capacity,
+//                 required: true,
+//                 as:'capacity'
+//             }
+//         ]
+//         })
+//         .then(objects => {
+//             globalFunctions.sendResult(res, objects);
+//         })
+//         .catch(err => {
+//             globalFunctions.sendError(res, err);
+//         })
+// };
 
 exports.create = (req, res) => {
     Room.create({

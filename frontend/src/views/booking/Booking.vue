@@ -1,7 +1,7 @@
 <template>
   <div>
     <h2>Бронирование комнаты</h2>
-    <p>Комната № {{ room_id }}</p>
+    <p>Комната № {{ room_number }}</p>
 
     <form @submit.prevent="createBooking">
       <div class="form-row">
@@ -36,18 +36,20 @@ export default defineComponent({
     const store = useStore();
     const currentUser = computed(() => store.state.auth.user);
 
+    const room_number = ref('');
+
     const today = new Date().toISOString().split("T")[0];
 
     const fetchRoomPrice = () => {
       http.get(`/room/${props.room_id}`)
         .then(response => {
           room_price.value = response.data.price;
+          room_number.value = response.data.room_number;
         })
         .catch(e => {
           console.error(e);
         });
     };
-
     const calculatePrice = () => {
       if (check_in_date.value && check_out_date.value) {
         const inDate = new Date(check_in_date.value);
@@ -131,6 +133,7 @@ export default defineComponent({
     });
 
     return {
+      room_number,
       currentUser,
       check_in_date,
       check_out_date,
