@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Хост: 127.0.0.1
--- Время создания: Май 11 2025 г., 19:14
+-- Время создания: Май 12 2025 г., 15:27
 -- Версия сервера: 10.4.32-MariaDB
 -- Версия PHP: 8.2.12
 
@@ -71,7 +71,13 @@ INSERT INTO `booking` (`id`, `user_id`, `room_id`, `check_in_date`, `check_out_d
 (30, 2, 1, '2025-05-11 00:00:00', '2025-05-12 00:00:00', 2000.00, 8, '2025-05-11 10:59:12'),
 (31, 2, 2, '2025-05-11 00:00:00', '2025-05-12 00:00:00', 3500.00, 3, '2025-05-11 11:14:41'),
 (32, 2, 2, '2025-05-11 00:00:00', '2025-05-16 00:00:00', 17500.00, 3, '2025-05-11 12:48:05'),
-(33, 2, 1, '2025-05-12 00:00:00', '2025-05-13 00:00:00', 2000.00, 2, '2025-05-12 01:05:54');
+(33, 2, 1, '2025-05-12 00:00:00', '2025-05-13 00:00:00', 2000.00, 2, '2025-05-12 01:05:54'),
+(34, 2, 2, '2025-05-12 00:00:00', '2025-05-13 00:00:00', 3500.00, 3, '2025-05-12 06:09:36'),
+(35, 2, 2, '2025-05-12 00:00:00', '2025-05-13 00:00:00', 3500.00, 3, '2025-05-12 06:10:02'),
+(36, 2, 3, '2025-05-12 00:00:00', '2025-05-13 00:00:00', 4000.00, 3, '2025-05-12 06:10:22'),
+(37, 2, 2, '2025-05-12 00:00:00', '2025-05-13 00:00:00', 3500.00, 3, '2025-05-12 06:11:34'),
+(38, 2, 2, '2025-05-12 00:00:00', '2025-05-14 00:00:00', 7000.00, 3, '2025-05-12 06:11:55'),
+(39, 2, 2, '2025-05-12 00:00:00', '2025-05-16 00:00:00', 14000.00, 3, '2025-05-12 06:12:08');
 
 -- --------------------------------------------------------
 
@@ -134,7 +140,13 @@ INSERT INTO `payment` (`id`, `booking_id`, `amount`, `payment_date`, `method`, `
 (20, 30, 2000.00, '2025-05-11 10:59:19', 'card', 4),
 (21, 31, 3500.00, '2025-05-11 11:14:42', 'card', 5),
 (22, 32, 17500.00, '2025-05-11 12:48:05', 'card', 5),
-(23, 33, 2000.00, '2025-05-12 01:08:08', 'card', 2);
+(23, 33, 2000.00, '2025-05-12 01:08:08', 'card', 4),
+(24, 34, 3500.00, '2025-05-12 06:09:36', 'card', 5),
+(25, 35, 3500.00, '2025-05-12 06:10:02', 'card', 5),
+(26, 36, 4000.00, '2025-05-12 06:10:22', 'card', 5),
+(27, 37, 3500.00, '2025-05-12 06:11:34', 'card', 5),
+(28, 38, 7000.00, '2025-05-12 06:11:55', 'card', 5),
+(29, 39, 14000.00, '2025-05-12 06:12:08', 'card', 5);
 
 -- --------------------------------------------------------
 
@@ -231,8 +243,9 @@ CREATE TABLE `user` (
 --
 
 INSERT INTO `user` (`id`, `username`, `password`, `role`, `firstname`, `lastname`, `middlename`, `phone_number`, `email`) VALUES
-(2, 'admin', '$2b$10$E4kdmQsGKPQvuwaIvF2/k.LueZpyGm1mcBNGKhOrgVSdxV6EwiApq', 'Администратор', 'Владимир', 'Сенькин', 'Юрьевич', '+79501202359', 'vl.senkin@gmail.com'),
-(19, 'guest', '$2b$10$4H8XvOVFk.heAIJzAKGlBeZCoiae4dhTLmXuwycGAd/sbT1XXU11S', 'Гость', 'guest', 'guest', 'guest', '123456', 'mail');
+(2, 'admin', '$2b$10$MTBuJIRUxu6OoIwxN6JWBOHTtwFKPwwZP8GHFKjnUrNKGFIep.rtO', 'Администратор', 'Владимир', 'Сенькин', 'Юрьевич', '+79501202359', 'vl.senkin@gmail.com'),
+(19, 'guest', '$2b$10$4H8XvOVFk.heAIJzAKGlBeZCoiae4dhTLmXuwycGAd/sbT1XXU11S', 'Гость', 'guest', 'guest', 'guest', '123456', 'mail'),
+(22, 'newtest', '$2b$10$1gs6rW7aGGErrGy8iw8KneHBXYCvnfVuLX69ebazqNoxS8N1yzlRC', 'Гость', 'Тест', 'Тестовый1', 'Тестович', '123456', 'newtest');
 
 --
 -- Индексы сохранённых таблиц
@@ -299,7 +312,7 @@ ALTER TABLE `user`
 -- AUTO_INCREMENT для таблицы `booking`
 --
 ALTER TABLE `booking`
-  MODIFY `id` int(10) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=34;
+  MODIFY `id` int(10) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=40;
 
 --
 -- AUTO_INCREMENT для таблицы `capacity`
@@ -311,7 +324,7 @@ ALTER TABLE `capacity`
 -- AUTO_INCREMENT для таблицы `payment`
 --
 ALTER TABLE `payment`
-  MODIFY `id` int(10) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=24;
+  MODIFY `id` int(10) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=30;
 
 --
 -- AUTO_INCREMENT для таблицы `room`
@@ -335,7 +348,7 @@ ALTER TABLE `type`
 -- AUTO_INCREMENT для таблицы `user`
 --
 ALTER TABLE `user`
-  MODIFY `id` int(10) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=20;
+  MODIFY `id` int(10) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=23;
 
 --
 -- Ограничения внешнего ключа сохраненных таблиц
