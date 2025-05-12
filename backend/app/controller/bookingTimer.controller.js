@@ -1,3 +1,4 @@
+process.env.TZ = 'Asia/Irkutsk';
 const { Op } = require("sequelize");
 var db = require('../config/db.config.js');
 var Booking = db.booking;   

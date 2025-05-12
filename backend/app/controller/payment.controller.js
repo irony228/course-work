@@ -1,23 +1,71 @@
 var db = require('../config/db.config.js');
 var globalFunctions = require('../config/global.functions.js');
 var Payment = db.payment;
+const { Op } = require('sequelize');
+// exports.findAll = (req, res) => {
+//     Payment.findAll({
+//         include: [
+//             {
+//                 model: db.status,
+//                 as: 'status' 
+//             }
+//         ]
+//         })
+//         .then(objects => {
+//             globalFunctions.sendResult(res, objects);
+//         })
+//         .catch(err => {
+//             globalFunctions.sendError(res, err);
+//         })
+// };
 
-exports.findAll = (req, res) => {
-    Payment.findAll({
+exports.findAll = async (req, res) => {
+    try {
+      const { id, user_id, status, price_from, price_to, date_from, date_to } = req.query;
+  
+      let condition = {};
+  
+      if (id) {
+        condition.id = id;
+      }
+      if (user_id) {
+        condition.user_id = { [Op.like]: `%${user_id}%` };
+      }
+      if (price_from) {
+        condition.amount = { [Op.gte]: price_from };
+      }
+      if (price_to) {
+        condition.amount = {
+          ...(condition.amount || {}),
+          [Op.lte]: price_to
+        };
+      }
+      if (date_from) {
+        condition.payment_date = { [Op.gte]: date_from };
+      }
+      if (date_to) {
+        condition.payment_date = {
+          ...(condition.payment_date || {}),
+          [Op.lte]: date_to
+        };
+      }
+  
+      const objects = await Payment.findAll({
+        where: condition,
         include: [
-            {
-                model: db.status,
-                as: 'status' 
-            }
+          {
+            model: db.status,
+            as: 'status',
+            where: status ? { name: status } : undefined
+          }
         ]
-        })
-        .then(objects => {
-            globalFunctions.sendResult(res, objects);
-        })
-        .catch(err => {
-            globalFunctions.sendError(res, err);
-        })
-};
+      });
+  
+      globalFunctions.sendResult(res, objects);
+    } catch (err) {
+      globalFunctions.sendError(res, err);
+    }
+  };
 
 exports.create = (req, res) => {
     Payment.create({

@@ -95,6 +95,14 @@ const routes = [
             title: "Пользователи"
         }
     },
+    {
+        path: "/admin/payments",
+        name: "AllPayments",
+        component: () => import('../views/admin/ListPayments.vue'),
+        meta: {
+            title: "Платежи"
+        }
+    },
       
 ];
 

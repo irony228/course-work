@@ -1,3 +1,4 @@
+process.env.TZ = 'Asia/Irkutsk';
 const cron = require("node-cron");
 var db = require('../config/db.config.js');
 var Room = db.room;
