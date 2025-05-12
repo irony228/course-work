@@ -8,7 +8,19 @@
     <p><strong>Роль:</strong> {{ currentUser.role }}</p>
     <p><strong>ФИО:</strong> {{ currentUser.lastname }} {{ currentUser.firstname }} {{ currentUser.middlename }}</p>
   </div>
-
+  <div v-if="currentUser.role === 'Администратор'">
+    <label>Администрирование:</label>
+    <router-link :to="`/admin/bookings`">
+      <button>Все бронирования</button>
+    </router-link>
+    <router-link :to="`/admin/users`">
+      <button>Все пользователи</button>
+    </router-link>
+    <router-link :to="`/admin/payments`">
+      <button>Все платежи</button>
+    </router-link>
+    
+  </div>
   <h4>Мои бронирования</h4>
   <div v-if="bookings.length === 0">
     <p>У вас нет бронирований.</p>
@@ -59,6 +71,7 @@ export default {
     const itemsPerPage = 4;
     const totalPages = computed(() => Math.ceil(bookings.value.length / itemsPerPage));
 
+  
     const remainingTimes = ref({});
 
     const paginatedBookings = computed(() => {
@@ -238,3 +251,9 @@ export default {
   }
 };
 </script>
+
+<style>
+  button {
+    margin:3px;
+  }
+</style>

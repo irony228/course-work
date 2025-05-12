@@ -13,7 +13,7 @@
       <label>до:
         <input type="number" v-model="priceTo" min="0" class="input-text" />
       </label>
-      <label>Дата бронирования от:
+      <label>Дата оплаты от:
         <input type="date" v-model="dateFrom" class="input-text" />
       </label>
       <label>до:
