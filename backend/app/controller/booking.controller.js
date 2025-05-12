@@ -5,33 +5,6 @@ var Status = db.status;
 var Room = db.room;
 var User = db.user;
 const { Op } = require("sequelize");
-// exports.findAll = (req, res) => {
-//     const where = {};
-
-//     if (req.query.status_id) where.status_id = req.query.status_id;
-//     if (req.query.user_id) where.user_id = req.query.user_id;
-//     if (req.query.room_id) where.room_id = req.query.room_id;
-//     if (req.query.date_from && req.query.date_to) {
-//         where.check_in_date = {
-//             [db.Sequelize.Op.between]: [req.query.date_from, req.query.date_to]
-//         };
-//     }
-
-//     Booking.findAll({
-//         where,
-//         include: [
-//             { model: Status, as: 'status' },
-//             { model: User, as: 'user' },
-//             { model: Room, as: 'room' }
-//         ]
-//     })
-//     .then(objects => {
-//         globalFunctions.sendResult(res, objects);
-//     })
-//     .catch(err => {
-//         globalFunctions.sendError(res, err);
-//     });
-// };
 
 exports.findAll = async (req, res) => {
     try {
@@ -105,8 +78,8 @@ exports.create = (req, res) => {
         room_id: req.body.room_id,
         check_in_date: req.body.check_in_date,
         check_out_date: req.body.check_out_date,
-        price: req.body.price, // потом можешь рассчитать по длительности и цене комнаты
-        status_id: 1, // например "в ожидании"
+        price: req.body.price,
+        status_id: 1,
         created: new Date()
     }).then(object => {
         globalFunctions.sendResult(res, object);
@@ -138,7 +111,6 @@ exports.update = (req, res) => {
 };
 
 exports.findUserBookings = async (req,res) => {
-    //await checkAndUpdateRoomStatus();
     Booking.findAll({
         where: {
             user_id: req.params.user_id
@@ -178,30 +150,3 @@ exports.findUserBookings = async (req,res) => {
             globalFunctions.sendError(res, err);
         })
 }
-
-
-// Проверка и обновление статусов бронирований и комнат
-const checkAndUpdateRoomStatus = async () => {
-  const outdatedBookings = await Booking.findAll({
-    where: {
-      check_out_date: {
-        [Op.lt]: new Date() // check_out_date < текущего времени
-      },
-      [Op.or]: [{status_id: 2},{status_id: 1}], // только активные бронирования
-    }
-  });
-
-  for (const booking of outdatedBookings) {
-    // Освобождаем комнату
-    await Room.update(
-      { status_id: 6 }, // статус 'Свободна'
-      { where: { id: booking.room_id } }
-    );
-
-    // Меняем статус бронирования на 'Завершено' (допустим, статус 5)
-    await Booking.update(
-      { status_id: 8 },
-      { where: { id: booking.id } }
-    );
-  }
-};

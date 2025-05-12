@@ -1,7 +1,6 @@
 <template>
   <div class="container">
     <h2>Все бронирования</h2>
-    <!-- Фильтры -->
     <div class="filters">
       <label>Цена от:
         <input type="number" v-model="priceFrom" min="0" class="input-text" />

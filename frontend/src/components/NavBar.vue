@@ -7,7 +7,7 @@
           <span class="navbar-toggler-icon"></span>
         </button>
         <div class="collapse navbar-collapse" id="navbarNavDropdown">
-          <ul class="navbar-nav ms-auto"> <!-- 'ms-auto' выравнивает элементы вправо -->
+          <ul class="navbar-nav ms-auto">
             <li class="nav-item">
               <router-link class="nav-link" to="/listRooms">Комнаты</router-link>
             </li>

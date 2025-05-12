@@ -2,7 +2,6 @@
   <div>
     <h2>Бронирование комнаты</h2>
     <p>Комната № {{ room_number }}</p>
-
     <form @submit.prevent="createBooking">
       <div class="form-row">
         <label>Дата заезда:</label>
@@ -13,7 +12,6 @@
         <input type="date" v-model="check_out_date" :min="check_in_date || today" required class="input-date">
       </div>
       <p>Итоговая стоимость: {{ totalPrice }}₽</p>
-
       <button type="submit" :disabled="!canBook">Подтвердить бронирование</button>
     </form>
   </div>
@@ -93,16 +91,14 @@ export default defineComponent({
               console.error(e);
             });
 
-          // После успешного бронирования меняем статус комнаты на '7'
           http.post(`/updateRoom/${props.room_id}`, {
               status_id: 7
             }, {
               headers: {
-                "x-access-token": store.state.auth.token // если у тебя авторизация через токен
+                "x-access-token": store.state.auth.token
               }
             })
             .then(() => {
-              // После успешного обновления статуса — переход на профиль
               router.push("/profile");
               setTimeout(function(){ 
                   alert('У вас есть 10 минут чтобы оплатить бронирование');
@@ -111,7 +107,6 @@ export default defineComponent({
             .catch(e => {
               console.error("Ошибка при обновлении статуса комнаты:", e);
             });
-
         })
         .catch(e => {
           console.error(e);
@@ -126,7 +121,6 @@ export default defineComponent({
       );
     });
 
-    // вотчеры на изменение дат
     watch([check_in_date, check_out_date], () => {
       calculatePrice();
     });

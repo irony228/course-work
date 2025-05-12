@@ -40,7 +40,6 @@ var db = {};
 db.Sequelize = Sequelize;
 db.sequelize = sequelize;
 
-// Подключение моделей
 db.booking = require('../model/booking.model.js')(sequelize, Sequelize);
 db.payment = require('../model/payment.model.js')(sequelize, Sequelize);
 db.room = require('../model/room.model.js')(sequelize, Sequelize);
@@ -49,8 +48,6 @@ db.type = require('../model/type.model.js')(sequelize, Sequelize);
 db.status = require('../model/status.model.js')(sequelize, Sequelize);
 db.capacity = require('../model/capacity.model.js')(sequelize, Sequelize);
 
-// Связывание моделей без импорта файлов (то есть, чтобы в файле описания любой модели можно было
-// обращаться к другим моделям по имени без необходимости импорта в виде require(...))
 Object.keys(db).forEach(key => {
     if (db[key] && db[key].associate) {
         db[key].associate(db);

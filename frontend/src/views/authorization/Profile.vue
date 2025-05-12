@@ -21,7 +21,6 @@
     <router-link :to="`/admin/payments`">
       <button>Все платежи</button>
     </router-link>
-    
   </div>
   <h4>Мои бронирования</h4>
   <div v-if="bookings.length === 0">
@@ -37,16 +36,13 @@
         <p>Комната № {{ booking.room.room_number }}</p>
         <p>{{ booking.room.capacity.name }} номер класса {{ booking.room.type.name }}</p>
         <p>Итоговая стоимость: {{ booking.price }}₽</p>
-
         <p v-if="booking.status_id === 1">
           Оплатите до: <strong>{{ formatRemainingTime(remainingTimes[booking.id]) }}</strong>
         </p>
-
         <button v-if="booking.status_id === 1" @click="goToPayment(booking)">Оплатить</button>
         <button v-if="booking.status_id === 1" @click="cancelBooking(booking)">Отменить</button>
       </div>
     </div>
-
     <div class="pagination">
       <button :disabled="currentPage === 1" @click="previousPage">Предыдущие</button>
       <span>Страница {{ currentPage }} из {{ totalPages }}</span>
@@ -123,7 +119,7 @@ export default {
 
     const goToPayment = (booking) => {
       http.post(`/updatePayment/${booking.id}`, {
-        status_id: 2,
+        status_id: 4,
         payment_date: new Date()
       }, {
         headers: {

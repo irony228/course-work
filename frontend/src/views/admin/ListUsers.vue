@@ -1,8 +1,6 @@
 <template>
   <div class="container">
     <h2>Все пользователи</h2>
-
-    <!-- Фильтры -->
     <div class="filters">
       <label>ID:
         <input type="text" v-model="userId" class="input-text" />
@@ -29,8 +27,6 @@
       <button @click="filterUsers">Применить фильтр</button>
       <button @click="resetFilters" style="margin:10px">Сбросить фильтры</button>
     </div>
-
-    <!-- Таблица пользователей -->
     <table>
       <thead>
         <tr>

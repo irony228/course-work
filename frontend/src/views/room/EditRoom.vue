@@ -7,43 +7,36 @@
             <label for="room_number">Номер комнаты:</label>
             <input type="text" id="room_number" required v-model="room.room_number" class="input-text">
           </div>
-
           <div class="form-row">
             <label for="type_id">Тип:</label>
             <select id="type_id" v-model="room.type_id" required>
               <option v-for="type in types" :key="type.id" :value="type.id">{{type.name}}</option>
             </select>
           </div>
-
           <div class="form-row">
             <label for="photo_url">Изображение:</label>
             <input type="text" id="photo_url" required v-model="room.photo_url" class="input-text">
           </div>
-
           <div class="form-row">
             <label for="capacity_id">Вместимость:</label>
             <select id="capacity_id" v-model="room.capacity_id" required>
               <option v-for="capacity in capacities" :key="capacity.id" :value="capacity.id">{{capacity.name}}</option>
             </select>
           </div>
-
           <div class="form-row">
             <label for="price">Цена:</label>
             <input type="text" id="price" required v-model="room.price" class="input-text">
           </div>
-
           <div class="form-row">
             <label for="description">Описание:</label>
             <input type="text" id="description" required v-model="room.description" class="input-text">
           </div>
-
           <div class="form-row">
             <label for="status_id">Статус:</label>
             <select id="status_id" v-model="room.status_id" required>
               <option v-for="status in statuses.filter(s => s.entity_type === 'room')" :key="status.id" :value="status.id">{{status.name}}</option>
             </select>
           </div>
-
           <div class="form-row">
             <button type="submit">Обновить</button>
           </div>
@@ -79,17 +72,17 @@
 
       const getRoom = () => {
         http
-          .get("/room/" + props.id) // обращаемся к серверу для получения категории, id взят из входных параметров (props)
-          .then(response => { // запрос выполнен успешно
+          .get("/room/" + props.id)
+          .then(response => {
             room.value = response.data;
           })
-          .catch(e => { // запрос выполнен с ошибкой
+          .catch(e => {
             console.log(e);
           });
       };
   
       const updateRoom = (e) => {
-        e.preventDefault(); // запрет отправки формы, так как обрабатывать будем с помощью методов axios
+        e.preventDefault();
         const data = {
           room_number: room.value.room_number,
           type_id: room.value.type_id,
@@ -103,7 +96,7 @@
         http
           .post("/updateRoom/" + room.value.id, data)
           .then(() => {
-            router.push('/listRooms'); // переходим к списку категорий
+            router.push('/listRooms');
           })
           .catch(e => {
             console.log(e);
@@ -131,7 +124,7 @@
         http
           .post("/deleteRoom/" + room.value.id)
           .then(() => {
-            router.push('/listRooms'); // переходим к списку категорий
+            router.push('/listRooms');
           })
           .catch(e => {
             console.log(e);
@@ -142,7 +135,7 @@
         getRoom();
         getSelectData();
       });
-  
+      
       return {
         room,
         submitted,

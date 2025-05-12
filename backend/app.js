@@ -8,7 +8,7 @@ app.use(bodyParser.urlencoded({ extended: false }));
 require("./app/controller/bookingRoomCheck.controller.js");
 require('./app/controller/bookingTimer.controller.js');
 
-var db = require('./app/config/db.config.js'); // подключение настроек базы данных
+var db = require('./app/config/db.config.js'); 
 
 db.sequelize.sync({force: false});
 
@@ -16,9 +16,9 @@ app.listen(3000);
 
 var cors = require('cors');
 var corsOptions = {
-    origin: ['http://localhost:5173', 'http://127.0.0.1:5173'], // указываем, откуда будут приходить запросы
-    credentials: true, // разрешаем обрабатывать запросы
-    optionSuccessStatus: 200 // при успешной обработке запроса будет возвращён статус 200
+    origin: ['http://localhost:5173', 'http://127.0.0.1:5173'],
+    credentials: true, 
+    optionSuccessStatus: 200 
 };
 app.use(cors(corsOptions));
 

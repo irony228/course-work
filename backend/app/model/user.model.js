@@ -3,13 +3,13 @@ module.exports = (sequelize, Sequelize) => {
         'user', // определяем имя таблицы
         {
             id: {
-                type: Sequelize.INTEGER(10), // тип данных INTEGER
-                autoIncrement: true, // включение автоматической нумерации
-                primaryKey: true // поле является первичным ключом
+                type: Sequelize.INTEGER(10), 
+                autoIncrement: true, 
+                primaryKey: true 
             },
             username: {
-                type: Sequelize.STRING(50),  // тип данных STRING (в MySQL — VARCHAR)
-                allowNull: false // настройка allowNull со значением false запрещает запись в поле значений NULL (для поля с настройкой автоинкремента можно не указывать)
+                type: Sequelize.STRING(50),  
+                allowNull: false 
             },
             password: {
                 type: Sequelize.STRING(150),
@@ -42,10 +42,7 @@ module.exports = (sequelize, Sequelize) => {
             }
         });
 
-    // Определяем связи таблицы user с другими таблицами
     User.associate = (models) => {
-        // Определение связи один-ко-многим с таблицей cart. Это определение связи с одной стороны.
-        // Связь также определена со второй стороны (со стороны таблицы cart): в файле cart.model.js
         User.hasMany(models.booking, {
             foreignKey: 'user_id',
             onDelete: 'CASCADE',

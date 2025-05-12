@@ -64,7 +64,6 @@ export default {
     const passwordError = ref('');
     const router = useRouter();
 
-    // Validation functions
     const validateUsername = (username) => {
       if (username.length < 3) {
         usernameError.value = 'Логин должен содержать как минимум 3 символа';
@@ -88,7 +87,7 @@ export default {
       errorMessage.value = '';
 
       if (!validateUsername(user.value.username) || !validatePassword(user.value.password)) {
-          return; // запрещаем дальнейшее выполнение метода если логин или пароль некорректны
+          return;
         }
 
       try {

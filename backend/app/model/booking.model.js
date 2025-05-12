@@ -1,11 +1,11 @@
 module.exports = (sequelize, Sequelize) => {
     var Booking = sequelize.define(
-        'booking', // определяем имя таблицы
+        'booking', 
         {
             id: {
-                type: Sequelize.INTEGER(10), // тип данных INTEGER
-                autoIncrement: true, // включение автоматической нумерации
-                primaryKey: true // поле является первичным ключом
+                type: Sequelize.INTEGER(10), 
+                autoIncrement: true, 
+                primaryKey: true 
             },
             user_id: {
                 type: Sequelize.INTEGER(10),

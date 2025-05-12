@@ -5,31 +5,26 @@ var Room = db.room;
 var Booking = db.booking;   
 const { Op } = require("sequelize");
 
-// Функция для проверки и обновления статусов
 const checkAndUpdateRoomStatus = async () => {
   try {
     const outdatedBookings = await Booking.findAll({
       where: {
         check_out_date: {
-          [Op.lt]: new Date() // время уже вышло
+          [Op.lt]: new Date()
         },
-        [Op.or]: [{status_id: 2},{status_id: 1}], // активные брони
+        [Op.or]: [{status_id: 2},{status_id: 1}],
       }
     });
 
     for (const booking of outdatedBookings) {
-      // Освобождаем комнату
       await Room.update(
-        { status_id: 6 }, // статус 'Свободна'
+        { status_id: 6 }, 
         { where: { id: booking.room_id } }
       );
-
-      // Меняем статус брони на 'Завершено'
       await Booking.update(
         { status_id: 3 },
         { where: { id: booking.id } }
       );
-
       console.log(`Бронирование №${booking.id} завершено, комната c id:${booking.room_id} освобождена.`);
     }
 
@@ -38,7 +33,6 @@ const checkAndUpdateRoomStatus = async () => {
   }
 };
 
-// Создаём задачу, которая будет выполняться каждые 5 минут
 cron.schedule("*/5 * * * *", () => {
   console.log("Выполняем проверку просроченных бронирований...");
   checkAndUpdateRoomStatus();

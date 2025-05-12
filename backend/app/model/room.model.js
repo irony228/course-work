@@ -1,11 +1,11 @@
 module.exports = (sequelize, Sequelize) => {
     var Room = sequelize.define(
-        'room', // определяем имя таблицы
+        'room', 
         {
             id: {
-                type: Sequelize.INTEGER(10), // тип данных INTEGER
-                autoIncrement: true, // включение автоматической нумерации
-                primaryKey: true // поле является первичным ключом
+                type: Sequelize.INTEGER(10), 
+                autoIncrement: true, 
+                primaryKey: true
             },
             room_number: {
                 type: Sequelize.INTEGER(10),

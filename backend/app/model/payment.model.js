@@ -3,9 +3,9 @@ module.exports = (sequelize, Sequelize) => {
         'payment', // определяем имя таблицы
         {
             id: {
-                type: Sequelize.INTEGER(10), // тип данных INTEGER
-                autoIncrement: true, // включение автоматической нумерации
-                primaryKey: true // поле является первичным ключом
+                type: Sequelize.INTEGER(10), 
+                autoIncrement: true,
+                primaryKey: true 
             },
             booking_id: {
                 type: Sequelize.INTEGER(10),

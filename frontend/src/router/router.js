@@ -1,13 +1,12 @@
 import { createWebHistory, createRouter } from "vue-router";
 import store from "../store/index";
 
-// определяем маршруты
 const routes = [
     {
-        path: "/listRooms", // указание маршрута, по которому будем переходить к списку категорий
-        name: "rooms", // имя маршрута
-        alias: "/rooms", // указание дополнительного маршрута
-        component: () => import('../views/room/ListRooms.vue'), // компонент, на основании которого будет отрисовываться страница
+        path: "/listRooms",
+        name: "rooms",
+        alias: "/rooms",
+        component: () => import('../views/room/ListRooms.vue'),
         meta: {
             title: "Список комнат"
         }
@@ -16,7 +15,7 @@ const routes = [
         path: "/room/:id",
         name: "room-details",
         component: () => import('../views/room/Room.vue'),
-        props: true, // указываем, что компонент Category.vue может принимать параметры в адресной строке, например, в path указан id
+        props: true, 
         meta: {
             title: "Комната"
         }
@@ -61,7 +60,6 @@ const routes = [
         component: () => import('../views/authorization/Profile.vue'),
         meta: {
             title: "Профиль пользователя",
-            // маршрут защищаем (делаем доступным только авторизованным пользователям)
             requiredAuth: true
         }
     },
@@ -107,47 +105,38 @@ const routes = [
 ];
 
 const router = createRouter({
-    history: createWebHistory(), // указываем, что будет создаваться история посещений веб-страниц
-    routes, // подключаем маршрутизацию
+    history: createWebHistory(), 
+    routes, 
 });
 
-// указание заголовка компонентам (тега title), заголовки определены в meta
 router.beforeEach(async (to, from, next) => {
-    // устанавливаем заголовок страницы в зависимости от метаданных маршрута
     document.title = to.meta.title || "Главная страница";
 
-    // проверяем наличие токена и срок его действия
     const isTokenActive = await store.getters["auth/isTokenActive"];
 
-    // если токен действителен, продолжаем навигацию
     if (isTokenActive) {
         return next();
     }
 
-    // получаем пользователя из локального хранилища
     const user = JSON.parse(localStorage.getItem("user")); 
-    //console.log(user)
 
     if (user) {
         try {
-            // пытаемся обновить токен
             await store.dispatch("auth/refreshToken", user);
-            return next(); // Если обновление прошло успешно, продолжаем навигацию
+            return next();
         } catch (err) {
-            console.error("Ошибка обновления токена:", err); // логируем ошибку
-            localStorage.removeItem("user"); // удаляем пользователя из локального хранилища
-            return next({ path: "/login" }); // переходим на страницу входа
+            console.error("Ошибка обновления токена:", err); 
+            localStorage.removeItem("user");
+            return next({ path: "/login" });
         }
     } else {
-        // если токена нет или он истек, проверяем, требуется ли авторизация для доступа к маршруту
-        localStorage.removeItem("user"); // удаляем пользователя из локального хранилища
+        localStorage.removeItem("user");
 
         if (to.meta.requiredAuth) {
-            return next({ path: "/login" }); // если доступа нет, перенаправляем на страницу входа
+            return next({ path: "/login" });
         }
     }
 
-    // если маршрут не требует авторизации, продолжаем навигацию
     return next();
 });
 

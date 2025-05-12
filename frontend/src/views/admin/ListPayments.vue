@@ -1,8 +1,6 @@
 <template>
   <div class="container">
     <h2>Все платежи</h2>
-
-    <!-- Фильтры -->
     <div class="filters">
       <label>ID:
         <input type="text" v-model="paymentId" class="input-text" />
@@ -29,8 +27,6 @@
       <button @click="filterPayments">Применить фильтр</button>
       <button @click="resetFilters" style="margin:10px">Сбросить фильтры</button>
     </div>
-
-    <!-- Таблица платежей -->
     <table>
       <thead>
         <tr>

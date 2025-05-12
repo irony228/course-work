@@ -5,11 +5,10 @@ var globalFunctions = require('../config/global.functions.js');
 var jwt = require("jsonwebtoken");
 var bcrypt = require("bcryptjs");
 
-// регистрация пользователя
 exports.register = (req, res) => {
     User.create({
         username: req.body.username,
-        password: bcrypt.hashSync(req.body.password, 10), // генерация хеша пароля
+        password: bcrypt.hashSync(req.body.password, 10),
         role: req.body.role,
         firstname: req.body.firstname,
         lastname: req.body.lastname,
@@ -28,7 +27,6 @@ exports.register = (req, res) => {
         });
 };
 
-// проверка данных пользователя
 exports.login = (req, res) => {
     User.findOne({
         where: {
@@ -54,7 +52,7 @@ exports.login = (req, res) => {
             }
 
             var token = jwt.sign({ id: user.id }, config.secret, {
-                expiresIn: "1h" // 1 час — время действия токена
+                expiresIn: "1h"
             });
             var object = {
                 id: user.id,
@@ -74,7 +72,6 @@ exports.login = (req, res) => {
         });
 };
 
-// обновление токена jwt (когда срок действия текущего истекает)
 exports.refreshToken = (req, res) => {
     User.findOne({
         where: {
@@ -87,7 +84,7 @@ exports.refreshToken = (req, res) => {
             }
 
             var token = jwt.sign({ id: user.id }, config.secret, {
-                expiresIn: "1h" // 1 час — время действия токена
+                expiresIn: "1h"
             });
             var object = {
                 id: user.id,
@@ -107,7 +104,6 @@ exports.refreshToken = (req, res) => {
         });
 };
 
-// проверка, что пользователь авторизован
 exports.userBoard = (req, res) => {
     globalFunctions.sendResult(res, "Пользователь авторизован");
 };

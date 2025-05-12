@@ -2,22 +2,6 @@ var db = require('../config/db.config.js');
 var globalFunctions = require('../config/global.functions.js');
 var Payment = db.payment;
 const { Op } = require('sequelize');
-// exports.findAll = (req, res) => {
-//     Payment.findAll({
-//         include: [
-//             {
-//                 model: db.status,
-//                 as: 'status' 
-//             }
-//         ]
-//         })
-//         .then(objects => {
-//             globalFunctions.sendResult(res, objects);
-//         })
-//         .catch(err => {
-//             globalFunctions.sendError(res, err);
-//         })
-// };
 
 exports.findAll = async (req, res) => {
     try {
@@ -73,7 +57,7 @@ exports.create = (req, res) => {
       amount: req.body.amount,
       payment_date: new Date(),
       method: "card",
-      status_id: 5  // например, 4 = успешно
+      status_id: 5 
     })
     .then(data => {
       res.send(data);

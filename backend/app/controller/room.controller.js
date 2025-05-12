@@ -3,8 +3,7 @@ var globalFunctions = require('../config/global.functions.js');
 var Room = db.room;
 var Type = db.type;
 var Status = db.status;
-var Capacity = db.capacity;
-var Booking = db.booking;   
+var Capacity = db.capacity;  
 const { Op } = require("sequelize");
 
 exports.findAll = async (req, res) => {
@@ -54,34 +53,6 @@ exports.findAll = async (req, res) => {
         globalFunctions.sendError(res, err);
     }
 };
-
-// exports.findAll = (req, res) => {
-//     Room.findAll({
-//         include: [
-//             {
-//                 model: Type,
-//                 required: true,
-//                 as: 'type'
-//             },
-//             {
-//                 model: Status,
-//                 required: true,
-//                 as: 'status'
-//             },
-//             {
-//                 model: Capacity,
-//                 required: true,
-//                 as:'capacity'
-//             }
-//         ]
-//         })
-//         .then(objects => {
-//             globalFunctions.sendResult(res, objects);
-//         })
-//         .catch(err => {
-//             globalFunctions.sendError(res, err);
-//         })
-// };
 
 exports.create = (req, res) => {
     Room.create({

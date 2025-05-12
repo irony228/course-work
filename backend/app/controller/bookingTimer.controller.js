@@ -7,19 +7,19 @@ setInterval(async () => {
   const now = new Date();
   const expiredBookings = await Booking.findAll({
     where: {
-      status_id: 1, // Занята
+      status_id: 1,
       created: {
-        [Op.lt]: new Date(now.getTime() - 10 * 60 * 1000) // старше 10 минут назад
+        [Op.lt]: new Date(now.getTime() - 10 * 60 * 1000) 
       }
     }
   });
 
   for (const booking of expiredBookings) {
-    booking.status_id = 3; // Отменена
+    booking.status_id = 3;
     await booking.save();
     await Room.update(
-        { status_id: 6 }, // статус 'Свободна'
+        { status_id: 6 },
         { where: { id: booking.room_id } }
       );
   }
-}, 20*1000); // проверяем раз в минуту
+}, 20*1000);

@@ -1,5 +1,3 @@
-const { verifyToken } = require("../middleware/authJwt");
-
 module.exports = (app) => {
     var { authJwt } = require("../middleware");
     const payment = require("../controller/payment.controller");

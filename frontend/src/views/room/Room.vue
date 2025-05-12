@@ -36,12 +36,12 @@ export default defineComponent({
 
     const getRoom = () => {
         http
-          .get("/room/" + props.id) // обращаемся к серверу для получения категории, id взят из входных параметров (props)
-          .then(response => { // запрос выполнен успешно
+          .get("/room/" + props.id) 
+          .then(response => { 
             room.value = response.data;
             console.log(response.data)
           })
-          .catch(e => { // запрос выполнен с ошибкой
+          .catch(e => {
             console.log(e);
           });
       };

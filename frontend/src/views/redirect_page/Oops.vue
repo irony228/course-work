@@ -8,7 +8,7 @@
       <p>
         <strong>Введён неверный адрес</strong>
       </p>
-      <button v-on:click="mainPage" class="btn btn-outline-info">Вернуться к списку комнат</button>
+      <button v-on:click="mainPage">Вернуться к списку комнат</button>
     </div>
   </template>
   
