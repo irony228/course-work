@@ -68,6 +68,7 @@ import { ref, onMounted, computed } from "vue";
 import http from "../../http-common";
 import { useStore } from "vuex";
 import { useRouter } from "vue-router";
+import UserService from '../../services/user.service';
 
 export default {
   name: "AllUsers",
@@ -167,7 +168,11 @@ export default {
     });
 
     onMounted(() => {
-      if (currentUser.value.role !== 'Администратор') {
+      if (currentUser.value && currentUser.value.role !== 'Администратор') {
+        router.push('/oops');
+        return;
+      }
+      if (!currentUser.value){
         router.push('/oops');
         return;
       }

@@ -12,7 +12,7 @@
               <router-link class="nav-link" to="/listRooms">Комнаты</router-link>
             </li>
             <li v-if="currentUser"  class="nav-item dropdown">
-              <a class="nav-link dropdown-toggle"role="button" href="#" data-bs-toggle="dropdown" aria-expanded="false">
+              <a class="nav-link dropdown-toggle"role="button" href="#" data-bs-toggle="dropdown" dropdown aria-expanded="false">
                 Профиль
               </a>
               <ul class="dropdown-menu">

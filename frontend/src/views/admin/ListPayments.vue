@@ -44,9 +44,17 @@
       <tbody>
         <tr v-for="payment in sortedPayments" :key="payment.id">
           <td>{{ payment.id }}</td>
-          <td>{{ payment.booking_id }}</td>
+          <td>
+            <router-link :to="{ path: '/admin/bookings', query: { bookingId: payment.booking_id } }">
+              <button style="padding: 0.2em 1em; border-radius:12px;">{{ payment.booking_id }}</button>
+            </router-link>
+          </td>
           <td>{{ payment.amount }}</td>
-          <td>{{ payment.status.name }}</td>
+          <td>
+            <div :class="['status-badge', statusClass(payment.status.name)]">
+              {{ payment.status.name }}
+            </div>
+          </td>
           <td>{{ formatDateTime(payment.payment_date) }}</td>
         </tr>
       </tbody>
@@ -155,8 +163,23 @@ export default {
     const formatDate = (isoString) => new Date(isoString).toLocaleDateString();
     const formatDateTime = (isoString) => new Date(isoString).toLocaleString();
 
+    const statusClass = (statusName) => {
+      switch (statusName.toLowerCase()) {
+        case 'оплачен':
+          return 'status-paid';
+        case 'не оплачено':
+          return 'status-cancelled';
+        default:
+          return 'status-default';
+      }
+    };
+
     onMounted(() => {
-      if (currentUser.value.role !== 'Администратор') {
+      if (currentUser.value && currentUser.value.role !== 'Администратор') {
+        router.push('/oops');
+        return;
+      }
+      if (!currentUser.value){
         router.push('/oops');
         return;
       }
@@ -181,6 +204,7 @@ export default {
       priceTo,
       dateFrom,
       dateTo,
+      statusClass
     };
   },
 };

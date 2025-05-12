@@ -7,6 +7,8 @@
     </header>
     <p><strong>Роль:</strong> {{ currentUser.role }}</p>
     <p><strong>ФИО:</strong> {{ currentUser.lastname }} {{ currentUser.firstname }} {{ currentUser.middlename }}</p>
+    <p><strong>Номер телефона:</strong> {{ currentUser.phone_number }}</p>
+    <p><strong>Email:</strong> {{ currentUser.email }}</p>
   </div>
   <div v-if="currentUser.role === 'Администратор'">
     <label>Администрирование:</label>

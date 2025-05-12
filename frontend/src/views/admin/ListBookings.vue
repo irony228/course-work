@@ -15,10 +15,13 @@
       <label>до:
         <input type="date" v-model="dateTo" class="input-text" />
       </label>
-      <label>id пользователя
+      <label>id бронирования:
+        <input type="text" v-model="bookingId" class="input-text" />
+      </label>
+      <label>id пользователя:
         <input type="text" v-model="userId" class="input-text" />
       </label>
-      <label>фамилия
+      <label>фамилия:
         <input type="text" v-model="lastname" class="input-text" />
       </label>
 
@@ -73,7 +76,7 @@ import { ref, onMounted, computed } from "vue";
 import http from "../../http-common";
 import UserService from '../../services/user.service';
 import { useStore } from "vuex";
-import { useRouter } from "vue-router";
+import { useRouter, useRoute } from "vue-router";
 
 export default {
   name: "AllBookings",
@@ -82,11 +85,13 @@ export default {
     const statuses = ref([]);
     const store = useStore();
     const router = useRouter();
+    const route = useRoute();
 
     const priceFrom = ref("");
     const priceTo = ref("");
     const dateFrom = ref("");
     const dateTo = ref("");
+    const bookingId = ref("");
     const userId = ref("");
     const lastname = ref("");
 
@@ -101,6 +106,7 @@ export default {
             price_to: priceTo.value,
             date_from: dateFrom.value,
             date_to: dateTo.value,
+            id: bookingId.value,
             user_id: userId.value,
             lastname: lastname.value,
         };
@@ -120,6 +126,7 @@ export default {
       priceTo.value = "",
       dateFrom.value = "",
       dateTo.value = "",
+      bookingId.value = "",
       userId.value = "",
       lastname.value = "",
       fetchBookings();
@@ -208,11 +215,21 @@ export default {
     };
 
     onMounted(() => {
-      if (currentUser.value.role !== 'Администратор') {
+      if (currentUser.value && currentUser.value.role !== 'Администратор') {
         router.push('/oops');
         return;
-      }  
-      fetchBookings();
+      }
+      if (!currentUser.value){
+        router.push('/oops');
+        return;
+      }
+      if (route.query.bookingId) {
+        bookingId.value = route.query.bookingId;
+        filterBookings();
+      } else {
+        fetchBookings();
+      }
+
       fetchStatuses();
     });
 
@@ -231,6 +248,7 @@ export default {
       priceTo,
       dateFrom,
       dateTo,
+      bookingId,
       userId,
       lastname,
       filterBookings,

@@ -35,7 +35,7 @@ const { Op } = require("sequelize");
 
 exports.findAll = async (req, res) => {
     try {
-        const { price_from, price_to, user_id, lastname, date_from, date_to } = req.query;
+        const { price_from, price_to, user_id, lastname, date_from, date_to, id } = req.query;
 
         let condition = {};
         let include = [
@@ -48,7 +48,9 @@ exports.findAll = async (req, res) => {
                 as: 'room'
             }
         ];
-        
+        if(id){
+            condition.id = id;
+        }
         if(price_from){
             condition.price = { [Op.gte]: price_from};
         }

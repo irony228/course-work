@@ -104,6 +104,9 @@ export default defineComponent({
             .then(() => {
               // После успешного обновления статуса — переход на профиль
               router.push("/profile");
+              setTimeout(function(){ 
+                  alert('У вас есть 10 минут чтобы оплатить бронирование');
+              }, 100); 
             })
             .catch(e => {
               console.error("Ошибка при обновлении статуса комнаты:", e);
@@ -129,6 +132,10 @@ export default defineComponent({
     });
 
     onMounted(() => {
+      if (!currentUser.value){
+        router.push('/oops');
+        return;
+      }
       fetchRoomPrice();
     });
 
